@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("VITE_POSTGRES_PRISMA_URL")
+}
+
+model User {
+  id                  Int             @id @default(autoincrement())
+  groupId             Int
+  firstName           String
+  lastName            String
+  dietaryRestrictions String?
+  foodPreference      FoodPreference?
+  going               Boolean?
+  group               Group           @relation(fields: [groupId], references: [id])
+}
+
+model Group {
+  id             Int      @id @default(autoincrement())
+  clerkId        String   @unique
+  canHavePlusOne Boolean  @default(false)
+  plusOnes       PlusOne?
+  users          User[]
+}
+
+model PlusOne {
+  id        Int    @id @default(autoincrement())
+  firstName String
+  lastName  String
+  groupId   Int    @unique
+  group     Group  @relation(fields: [groupId], references: [id])
+}
+
+enum FoodPreference {
+  SHORTRIB
+  CHICKEN
+  VEGETARIAN
+}
