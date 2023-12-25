@@ -15,7 +15,7 @@ function Panel<T>({
   visualKeys: string[];
 }) {
   function makeSummary(item: T) {
-    return visualKeys.map((key) => item[key]).join(" ");
+    return visualKeys.map((key) => (item as any)[key]).join(" ");
   }
 
   return (
@@ -28,9 +28,11 @@ function Panel<T>({
         <h1 className="text-2xl">All {name}s</h1>
         {items.map((item) => {
           return (
-            <details key={item.id}>
+            <details key={(item as any).id}>
               <summary>{makeSummary(item)}</summary>
-              <pre>{JSON.stringify(item, null, 2)}</pre>
+              <pre className="overflow-scroll">
+                {JSON.stringify(item, null, 2)}
+              </pre>
             </details>
           );
         })}
@@ -109,13 +111,9 @@ function AdminPanel() {
 }
 
 export default function Admin() {
-  const { user } = useUser();
-  const adminId = process.env.VITE_ADMIN_ID;
-
   return (
     <>
       <SignedIn>
-        {/* {user?.id === adminId ? <AdminPanel /> : redirect("/")} */}
         <AdminPanel />
       </SignedIn>
       <SignedOut>

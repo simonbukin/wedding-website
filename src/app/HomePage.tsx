@@ -5,17 +5,10 @@ import Countdown from "./Countdown";
 import Link from "next/link";
 
 export default function Homepage() {
-  const { isLoaded, user } = useUser();
-
-  if (!isLoaded) {
-    return null;
-  }
-
   return (
     <main className="flex flex-col">
       <nav className="flex flex-row gap-4 items-center justify-center h-fit">
         <UserButton />
-        <Link href="/admin">Admin</Link>
       </nav>
 
       <section className="flex flex-col items-center justify-center h-full">
