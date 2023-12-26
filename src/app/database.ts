@@ -80,6 +80,25 @@ export async function getAllPlusOnes() {
   return await prisma.plusOne.findMany();
 }
 
+export async function searchGroupById(clerkId: string) {
+  return await prisma.group.findFirst({
+    where: {
+      clerkId: clerkId,
+    },
+    include: {
+      users: true,
+    },
+  });
+}
+
+export async function searchUserById(id: number) {
+  return await prisma.user.findFirst({
+    where: {
+      id: id,
+    },
+  });
+}
+
 export async function deleteAll() {
   // console.log(await getAllPlusOnes());
   await prisma.plusOne.deleteMany();

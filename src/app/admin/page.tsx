@@ -64,9 +64,8 @@ function AdminPanel() {
   });
 
   return (
-    <>
-      <h1 className="text-4xl"> this is an admin panel!!!1 </h1>
-      <pre>{JSON.stringify(user?.id, null, 2)}</pre>
+    <div className="p-4">
+      <h1 className="text-4xl mb-4"> Admin </h1>
       <section className="grid grid-cols-3 grid-rows-2 gap-4">
         {allUsers && (
           <Panel<User>
@@ -106,7 +105,7 @@ function AdminPanel() {
           </p>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 
