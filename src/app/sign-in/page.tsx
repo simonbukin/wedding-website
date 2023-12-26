@@ -1,5 +1,5 @@
 import { SignIn } from "@clerk/nextjs";
 
-export function SignInPage() {
+export default function SignInPage() {
   return <SignIn />;
 }
