@@ -20,7 +20,7 @@ export function NavBar() {
 
   return (
     <NavigationMenu>
-      <NavigationMenuList className="flex flex-col gap-4  sm:flex-row sm:gap-4">
+      <NavigationMenuList className="flex flex-col gap-4 sm:flex-row sm:gap-4">
         <NavigationMenuItem>
           <Button
             className={buttonCss}
@@ -55,7 +55,7 @@ export function NavBar() {
             <Button className={buttonCss}>Our Story</Button>
           </NavigationMenuItem>
         </Link>
-        <NavigationMenuItem className="invisible sm:visible">
+        <NavigationMenuItem className="hidden sm:block">
           <Button
             className={buttonCss}
             onClick={() => {
