@@ -8,7 +8,6 @@ export async function GET(
   const { clerkId } = params;
   invariant(clerkId !== undefined, "clerkId is required");
   const group = await searchGroupById(clerkId);
-  console.log("group:", group);
   if (group) {
     const users = group.users;
     return Response.json(users, { status: 200 });

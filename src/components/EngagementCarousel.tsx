@@ -9,6 +9,10 @@ import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
 
 export function EngagementCarousel() {
+  const emblaPlugin = Autoplay({
+    delay: 4000,
+  });
+
   return (
     <Carousel
       className="order-2 my-4 sm:m-0"
@@ -19,11 +23,7 @@ export function EngagementCarousel() {
         align: "center",
         containScroll: false,
       }}
-      plugins={[
-        Autoplay({
-          delay: 4000,
-        }),
-      ]}
+      plugins={[emblaPlugin]}
     >
       <CarouselContent>
         <CarouselItem>
