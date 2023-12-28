@@ -37,19 +37,34 @@ export default function Homepage() {
         <EngagementCarousel />
       </section>
 
-      <footer className="mb-4 flex flex-shrink-0 flex-row justify-center text-slate-500 sm:my-8">
-        <p>Made with</p>
-        <ToolTipWithMobileHover />
-        <p>
-          by{" "}
-          <a
-            className="text-purple-700"
-            href="https://www.simonbukin.com"
-            target="_blank"
-          >
-            Simon Bukin
-          </a>
-        </p>
+      <footer className="mb-4 mt-8 flex flex-col items-center justify-around text-slate-500 sm:my-8 sm:flex-row">
+        <section className="flex flex-row">
+          <p>Made with</p>
+          <ToolTipWithMobileHover />
+          <p>
+            by{" "}
+            <a
+              className="text-purple-700"
+              href="https://www.simonbukin.com"
+              target="_blank"
+            >
+              Simon Bukin
+            </a>
+          </p>
+        </section>
+
+        <section className="">
+          <p>
+            📸 courtesy of{" "}
+            <a
+              className="text-purple-700"
+              href="https://www.instagram.com/3256austin/"
+              target="_blank"
+            >
+              Austin Fisher
+            </a>
+          </p>
+        </section>
       </footer>
     </div>
   );
