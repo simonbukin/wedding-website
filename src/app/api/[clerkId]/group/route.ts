@@ -10,6 +10,7 @@ export async function GET(
   const group = await searchGroupById(clerkId);
   if (group) {
     const users = group.users;
+    users.sort((a, b) => a.id - b.id);
     return Response.json(users, { status: 200 });
   } else {
     return Response.json({ message: "Group not found" }, { status: 404 });

@@ -6,12 +6,14 @@ let prisma = new PrismaClient();
 
 export async function createGroup(
   clerkId: string,
-  canHavePlusOne: boolean
+  canHavePlusOne: boolean,
+  userName?: string
 ): Promise<Group> {
   return prisma.group.create({
     data: {
       clerkId,
       canHavePlusOne,
+      userName,
     },
   });
 }
@@ -22,6 +24,16 @@ export async function getGroupByClerkId(
   return prisma.group.findUnique({
     where: {
       clerkId,
+    },
+  });
+}
+
+export async function getGroupByUserName(
+  userName: string
+): Promise<Group | null> {
+  return prisma.group.findUnique({
+    where: {
+      userName,
     },
   });
 }

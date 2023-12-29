@@ -23,6 +23,7 @@ model Group {
   clerkId        String   @unique
   canHavePlusOne Boolean  @default(false)
   plusOnes       PlusOne?
+  userName       String?  @unique
   users          User[]
 }
 
@@ -38,4 +39,5 @@ enum FoodPreference {
   SHORTRIB
   CHICKEN
   VEGETARIAN
+  KIDS_MEAL
 }

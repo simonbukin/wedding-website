@@ -22,8 +22,6 @@ function parseFirstNames(
   const adultNames = firstName.split(",")[0].trim();
   const childNames = firstName.split(",")[1]?.trim();
 
-  //   console.log(`adultsNames: ${adultNames}, childrenNames: ${childNames}`);
-
   const fullNames: string[] = [];
 
   if (adultNames) {
