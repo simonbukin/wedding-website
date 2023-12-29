@@ -53,9 +53,9 @@ export default function Homepage() {
           </p>
         </section>
 
-        <section className="">
+        <section className="mt-2 sm:m-0">
           <p>
-            📸 courtesy of{" "}
+            Photos by{" "}
             <a
               className="text-purple-700"
               href="https://www.instagram.com/3256austin/"
