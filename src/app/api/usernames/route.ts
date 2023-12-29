@@ -11,11 +11,10 @@ import {
 import { User } from "@clerk/nextjs/server";
 import invariant from "tiny-invariant";
 
-type GuestAndId = Guest & { id: string };
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   await deleteAll();
-  console.log("GETTING USERNAMES");
   const file = fs.readFileSync(process.cwd() + "/src/app/guests.json", "utf8");
   let guests: Guest[] = JSON.parse(file.toString());
   guests = guests.slice(0, 5);
@@ -44,12 +43,12 @@ export async function GET() {
   return NextResponse.json(usernames);
 }
 
-export const signUpUser = async (
+const signUpUser = async (
   clerkClient: any, // untyped in clerk SDK 🤷‍♂️
   username: string,
   delay: number
 ) => {
-  return await new Promise<User>((res) => {
+  return await new Promise<User>((res, rej) => {
     setTimeout(async () => {
       await clerkClient.users
         .createUser({
@@ -59,11 +58,10 @@ export const signUpUser = async (
         .then((result: any) => {
           console.log(result);
           if (result && result.id) {
-            console.log("user created: ", result.id);
             res(result);
           }
         })
-        .catch((err: any) => console.error("error", err.errors[0].longMessage));
+        .catch((err: any) => rej(err.errors[0].longMessage));
     }, delay);
   });
 };
