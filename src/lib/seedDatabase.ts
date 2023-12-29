@@ -22,6 +22,15 @@ async function main() {
 
   type Id = { id: string };
   type GuestAndId = Guest & Id;
+  let guestsJson;
+  try {
+    guestsJson = await import("../app/guests.json", {
+      assert: { type: "json" },
+    });
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
 
   const json = guestsJson.slice(0, 5) as GuestAndId[];
 
