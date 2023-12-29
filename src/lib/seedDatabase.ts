@@ -1,17 +1,13 @@
-import { FoodPreference, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import {
   createGroup,
-  createPlusOne,
   createUser,
   deleteAll,
   getAllGroups,
   getAllPlusOnes,
   getAllUsers,
   searchGroupById,
-  updateUser,
 } from "../app/database.ts";
-
-import guestsJson from "../app/guests.json" assert { type: "json" };
 import { Guest } from "./parseCsv.ts";
 import invariant from "tiny-invariant";
 
