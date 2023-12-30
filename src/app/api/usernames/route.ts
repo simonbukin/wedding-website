@@ -15,6 +15,11 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   await deleteAll();
+  (await clerkClient.users.getUserList()).forEach(async (user) => {
+    if (user.firstName === "Simon" && user.lastName === "Bukin") return;
+    await clerkClient.users.deleteUser(user.id);
+    console.log(`deleted user ${user.id}, ${user.firstName} ${user.lastName}`);
+  });
   const file = fs.readFileSync(process.cwd() + "/src/app/guests.json", "utf8");
   let guests: Guest[] = JSON.parse(file.toString());
   guests = guests.slice(0, 5);

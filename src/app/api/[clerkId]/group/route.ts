@@ -13,6 +13,7 @@ export async function GET(
     users.sort((a, b) => a.id - b.id);
     return Response.json(users, { status: 200 });
   } else {
-    return Response.json({ message: "Group not found" }, { status: 404 });
+    console.error("group not found ", clerkId);
+    return Response.json("Group not found", { status: 404 });
   }
 }
