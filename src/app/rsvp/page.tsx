@@ -8,6 +8,7 @@ import invariant from "tiny-invariant";
 import { FoodPreference } from "@prisma/client";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,6 +19,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
+import Confetti from "./Confetti";
+import { AlertDialogOverlay } from "@radix-ui/react-alert-dialog";
 
 export default function RSVPPage() {
   const { user } = useUser();
@@ -32,6 +35,9 @@ export default function RSVPPage() {
     invariant(user, "User must be signed in to RSVP");
     const usersResponse = await fetch(`/api/${user.id}/group`);
     const usersJson = await usersResponse.json();
+    if (usersJson.status === 404) {
+      console.log("usersJson: ", usersJson);
+    }
     setUsers(usersJson);
     usersJson.forEach((user: User) => {
       setValue(`${user.id}.going`, user.going ? "going" : "notGoing");
@@ -102,8 +108,8 @@ export default function RSVPPage() {
                   key={user.id}
                 >
                   <h2 className="text-xl font-bold">{`${user.firstName} ${user.lastName}`}</h2>
-                  <section className="flex justify-around">
-                    <label className="flex flex-col items-center justify-center gap-2 align-middle">
+                  <section className="flex w-full justify-around">
+                    <label className="flex flex-col items-center justify-center gap-2 break-words text-center align-middle sm:w-1/5">
                       Toasting to the happy couple!
                       <input
                         className="h-[30px] w-[30px]"
@@ -112,8 +118,8 @@ export default function RSVPPage() {
                         {...register(`${user.id}.going`, { required: true })}
                       />
                     </label>
-                    <label className="flex flex-col items-center justify-center gap-2 align-middle">
-                      Heartbroken to miss your special day
+                    <label className="flex flex-col items-center justify-center gap-2 break-words text-center align-middle sm:w-1/5">
+                      Regretfully sending love from afar
                       <input
                         className="h-[30px] w-[30px]"
                         type="radio"
@@ -162,20 +168,28 @@ export default function RSVPPage() {
         </Button>
       </form>
 
+      {alertOpen && (
+        <div className="z-[51]">
+          <Confetti />
+        </div>
+      )}
       <AlertDialog open={alertOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Your RSVP has been submitted!</AlertDialogTitle>
-            <AlertDialogDescription>
-              You can change your RSVP at any time by coming back to this page.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction onClick={() => router.push("/")}>
-              Back to home
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Your RSVP has been submitted!</AlertDialogTitle>
+              <AlertDialogDescription>
+                You can change your RSVP at any time by coming back to this
+                page.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction onClick={() => router.push("/")}>
+                Back to home
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
       </AlertDialog>
     </section>
   );

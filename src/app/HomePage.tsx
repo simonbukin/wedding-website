@@ -1,5 +1,4 @@
 import { differenceInCalendarDays } from "date-fns";
-import { LogIn } from "lucide-react";
 import { ToolTipWithMobileHover } from "@/components/ToolTipWithMobileHover";
 import { EngagementCarousel } from "@/components/EngagementCarousel";
 import { NavBar } from "@/components/NavBar";

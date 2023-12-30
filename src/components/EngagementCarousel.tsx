@@ -8,14 +8,68 @@ import {
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
 
+const CustomImage = ({
+  path,
+  width,
+  height,
+  alt,
+  priority = false,
+}: {
+  path: string;
+  width: number;
+  height: number;
+  alt: string;
+  priority: boolean;
+}) => {
+  return (
+    <Image
+      src={path}
+      alt={alt}
+      width={width}
+      height={height}
+      priority={priority}
+      placeholder="blur"
+      blurDataURL={path}
+    />
+  );
+};
+
 export function EngagementCarousel() {
   const emblaPlugin = Autoplay({
     delay: 4000,
   });
 
+  const imageData = [
+    {
+      src: "/1.avif",
+      alt: "Simon proposing to Kayla",
+      width: 1824,
+      height: 1216,
+      priority: true,
+    },
+    {
+      src: "/2.avif",
+      alt: "Simon and Kayla laughing and holding hands",
+      width: 1824,
+      height: 1216,
+    },
+    {
+      src: "/3.avif",
+      alt: "Simon and Kayla laughing during a piggyback ride",
+      width: 1824,
+      height: 1216,
+    },
+    {
+      src: "/4.avif",
+      alt: "Simon and Kayla hugging next to a tree",
+      width: 1824,
+      height: 1216,
+    },
+  ];
+
   return (
     <Carousel
-      className="order-2 my-4 sm:m-0"
+      className="pointer-events-none order-2 my-4 overflow-clip rounded-none sm:m-0 sm:rounded-2xl"
       opts={{
         loop: true,
         duration: 40,
@@ -26,50 +80,19 @@ export function EngagementCarousel() {
       plugins={[emblaPlugin]}
     >
       <CarouselContent>
-        <CarouselItem>
-          <Image
-            src="/1.jpg"
-            alt="Simon proposing to Kayla"
-            width={5472}
-            height={3648}
-            className="rounded-none sm:rounded-2xl"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={true}
-          />
-        </CarouselItem>
-        <CarouselItem>
-          <Image
-            src="/2.jpg"
-            alt="Simon and Kayla laughing and holding hands"
-            width={5472}
-            height={3648}
-            className="rounded-none sm:rounded-lg"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={true}
-          />
-        </CarouselItem>
-        <CarouselItem>
-          <Image
-            src="/3.jpg"
-            alt="Simon and Kayla laughing during a piggyback ride"
-            width={5472}
-            height={3648}
-            className="rounded-none sm:rounded-lg"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={true}
-          />
-        </CarouselItem>
-        <CarouselItem>
-          <Image
-            src="/4.jpg"
-            alt="Simon and Kayla hugging next to a tree"
-            width={5472}
-            height={3648}
-            className="rounded-none sm:rounded-lg"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={true}
-          />
-        </CarouselItem>
+        {imageData.map((image) => {
+          return (
+            <CarouselItem key={image.src}>
+              <CustomImage
+                path={image.src}
+                alt={image.alt}
+                width={image.width}
+                height={image.height}
+                priority={image.priority ?? false}
+              />
+            </CarouselItem>
+          );
+        })}
       </CarouselContent>
     </Carousel>
   );
