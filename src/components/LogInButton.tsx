@@ -8,8 +8,16 @@ export default function LogInButton() {
   const { openSignIn, signOut } = useClerk();
 
   return isSignedIn ? (
-    <CornerUpRight onClick={() => signOut()} className="visible sm:hidden" />
+    <CornerUpRight
+      onClick={() => signOut()}
+      className="block sm:hidden"
+      data-testid="sign-out-button"
+    />
   ) : (
-    <LogIn onClick={() => openSignIn()} className="visible sm:hidden" />
+    <LogIn
+      onClick={() => openSignIn()}
+      className="block sm:hidden"
+      data-testid="sign-in-button"
+    />
   );
 }

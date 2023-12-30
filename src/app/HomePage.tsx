@@ -4,7 +4,7 @@ import { EngagementCarousel } from "@/components/EngagementCarousel";
 import { NavBar } from "@/components/NavBar";
 import LogInButton from "@/components/LogInButton";
 
-export default function Homepage() {
+export default async function Homepage() {
   const daysUntilWedding = differenceInCalendarDays(
     new Date(2024, 8, 3),
     new Date()
