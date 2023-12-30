@@ -19,7 +19,7 @@ function Panel<T>({
   }
 
   return (
-    <form className="flex flex-col p-8 border rounded-md border-slate-700">
+    <form className="flex flex-col rounded-md border border-slate-700 p-8">
       <h1 className="text-4xl">{name}</h1>
       <label>
         {name}s : <input className=" text-neutral-900" type="text" />
@@ -42,7 +42,6 @@ function Panel<T>({
 }
 
 function AdminPanel() {
-  const { user } = useUser();
   const [allUsers, setAllUsers] = useState<User[]>();
   const [allGroups, setAllGroups] = useState<Group[]>();
   const [allPlusOnes, setAllPlusOnes] = useState<PlusOne[]>();
@@ -65,7 +64,7 @@ function AdminPanel() {
 
   return (
     <div className="p-4">
-      <h1 className="text-4xl mb-4"> Admin </h1>
+      <h1 className="mb-4 text-4xl"> Admin </h1>
       <section className="grid grid-cols-3 grid-rows-2 gap-4">
         {allUsers && (
           <Panel<User>
@@ -88,7 +87,7 @@ function AdminPanel() {
             visualKeys={["firstName", "lastName"]}
           />
         )}
-        <div className="p-8 border rounded-md border-slate-700">
+        <div className="rounded-md border border-slate-700 p-8">
           <h1 className="text-4xl">RSVP Status</h1>
           <p>Total invited: {allUsers?.length}</p>
           <p>
@@ -116,7 +115,7 @@ export default function Admin() {
         <AdminPanel />
       </SignedIn>
       <SignedOut>
-        <main className="flex w-full h-full items-center justify-center">
+        <main className="flex h-full w-full items-center justify-center">
           <SignIn />
         </main>
       </SignedOut>

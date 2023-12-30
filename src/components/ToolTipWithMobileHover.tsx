@@ -10,15 +10,14 @@ import {
 import { useState } from "react";
 
 export function ToolTipWithMobileHover() {
-  const [tooltipOpen, setTooltipOpen] = useState(false);
   const [confettiKey, setConfettiKey] = useState(0);
 
   return (
     <div>
       {confettiKey > 0 && <Confetti key={confettiKey} />}
       <TooltipProvider>
-        <Tooltip open={tooltipOpen}>
-          <TooltipTrigger asChild>
+        <Tooltip>
+          <TooltipTrigger>
             <p
               onClick={() => setConfettiKey((prevKey) => prevKey + 1)}
               className="mx-2"
@@ -27,7 +26,9 @@ export function ToolTipWithMobileHover() {
             </p>
           </TooltipTrigger>
           <TooltipContent>
-            <p>she said &quot;yeah&quot;</p>
+            <p id="tooltip-content" data-testId="tooltip-content">
+              she said &quot;yeah&quot;
+            </p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

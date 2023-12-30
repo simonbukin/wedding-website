@@ -28,8 +28,6 @@ const CustomImage = ({
       width={width}
       height={height}
       priority={priority}
-      placeholder="blur"
-      blurDataURL={path}
     />
   );
 };

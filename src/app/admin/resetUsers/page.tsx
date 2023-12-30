@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
-export default function UploadUserJsonPage() {
+export default function ResetUsersPage() {
   const [usernames, setUsernames] = useState([]);
 
   async function getUsers() {
