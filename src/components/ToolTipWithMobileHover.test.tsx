@@ -22,7 +22,6 @@ describe("ToolTipWithMobileHover", () => {
     render(<ToolTipWithMobileHover />);
     fireEvent.focus(screen.getByText("💜"));
     await waitFor(() => screen.getAllByTestId("tooltip-content"));
-    screen.debug();
     const el = document.getElementById("tooltip-content");
     expect(el).toBeDefined();
     expect(el?.textContent).toBe('she said "yeah"');
