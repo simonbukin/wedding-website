@@ -98,7 +98,7 @@ export default function RSVPPage() {
         className="flex flex-col gap-4 rounded-md border border-slate-600 p-4"
       >
         <h1 className="text-2xl font-bold">Your Party</h1>
-        {loading && <Loader text={"Submitting..."} />}
+        {loading && <Loader text={"Loading..."} />}
         {!loading && (
           <section>
             {users?.map((user) => {

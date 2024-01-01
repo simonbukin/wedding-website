@@ -16,9 +16,7 @@ export const Confetti = () => {
     });
   }, []);
 
-  const particlesLoaded = async (container?: Container): Promise<void> => {
-    console.log(container);
-  };
+  const particlesLoaded = async (container?: Container): Promise<void> => {};
 
   const nicePurples = ["#9251DB", "#A946CD", "#652EA0", "#5729B3", "#A675DD"];
   const niceBlues = ["#22577A", "#35B2FF", "#4C83EB", "#3A8CFF", "#67F2FF"];
@@ -111,7 +109,6 @@ export const Confetti = () => {
   };
 
   if (init) {
-    console.log("init");
     return (
       <Particles
         id="tsparticles"
