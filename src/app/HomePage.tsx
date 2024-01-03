@@ -33,7 +33,9 @@ export default async function Homepage() {
         <nav className="order-3 flex flex-row justify-center sm:order-1 sm:mb-2 sm:mt-6">
           <NavBar />
         </nav>
-        <EngagementCarousel />
+        <div className="h-full w-full">
+          <EngagementCarousel />
+        </div>
       </section>
 
       <footer className="mb-4 mt-8 flex flex-col items-center justify-around text-slate-500 sm:my-8 sm:flex-row">
