@@ -18,21 +18,24 @@ model User {
   group               Group           @relation(fields: [groupId], references: [id])
 }
 
+model PlusOne {
+  id                  Int             @id @default(autoincrement())
+  firstName           String
+  lastName            String
+  groupId             Int              @unique
+  dietaryRestrictions String?
+  foodPreference      FoodPreference?
+  going               Boolean?
+  group               Group           @relation(fields: [groupId], references: [id])
+}
+
 model Group {
   id             Int      @id @default(autoincrement())
   clerkId        String   @unique
   canHavePlusOne Boolean  @default(false)
-  plusOnes       PlusOne?
   userName       String?  @unique
+  plusOne        PlusOne?
   users          User[]
-}
-
-model PlusOne {
-  id        Int    @id @default(autoincrement())
-  firstName String
-  lastName  String
-  groupId   Int    @unique
-  group     Group  @relation(fields: [groupId], references: [id])
 }
 
 enum FoodPreference {
