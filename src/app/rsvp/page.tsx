@@ -1,8 +1,13 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-import { User } from "@prisma/client";
+import {
+  FieldValues,
+  SubmitErrorHandler,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
+import { Group, PlusOne, User } from "@prisma/client";
 import { useCallback, useEffect, useState } from "react";
 import invariant from "tiny-invariant";
 import { FoodPreference } from "@prisma/client";
@@ -22,24 +27,32 @@ import { useRouter } from "next/navigation";
 import Confetti from "./Confetti";
 import { AlertDialogOverlay } from "@radix-ui/react-alert-dialog";
 
+type GroupWithUsersAndPlusOnes = Group & { users: User[]; plusOne?: PlusOne };
+
+const isNumber = (str: string) => {
+  return !isNaN(parseFloat(str));
+};
+
 export default function RSVPPage() {
   const { user } = useUser();
   const { register, handleSubmit, setValue, watch } = useForm();
   const router = useRouter();
-  const [users, setUsers] = useState<User[]>();
+  const [group, setGroup] = useState<GroupWithUsersAndPlusOnes>();
   const [loading, setLoading] = useState<boolean>(false);
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
 
   const queryRSVP = useCallback(async () => {
     setLoading(true);
     invariant(user, "User must be signed in to RSVP");
-    const usersResponse = await fetch(`/api/${user.id}/group`);
-    const usersJson = await usersResponse.json();
-    if (usersJson.status === 404) {
-      console.log("usersJson: ", usersJson);
+    const groupResponse = await fetch(`/api/${user.id}/group`);
+    const { group }: { group: GroupWithUsersAndPlusOnes } =
+      await groupResponse.json();
+    setGroup(group);
+    if (group.plusOne) {
+      const { firstName, lastName } = group.plusOne;
+      setValue(`plusOneName`, `${firstName} ${lastName}`);
     }
-    setUsers(usersJson);
-    usersJson.forEach((user: User) => {
+    group.users.forEach((user: User) => {
       setValue(`${user.id}.going`, user.going ? "going" : "notGoing");
       setValue(
         `${user.id}.foodPreference`,
@@ -56,28 +69,32 @@ export default function RSVPPage() {
     }
   }, [queryRSVP, user]);
 
-  const onSubmit: SubmitHandler<Partial<User>> = async (
-    data: Partial<User>
-  ) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data: FieldValues) => {
     setLoading(true);
 
-    // for (const user of Object.entries(data) as unknown as (Omit<Partial<User>, "going"> & {
-    //   going: string | boolean;
-    // })[]) {
-    //   user.going = user.going === "going" ? true : false;
-    // }
-
-    for (const key of Object.keys(data)) {
-      // @ts-ignore // yuck but I am at my wits end
-      const obj = data[key];
-      if (obj) {
-        obj["going"] = obj["going"] === "going" ? true : false;
+    for (const [key, value] of Object.entries(data)) {
+      if (isNumber(key)) {
+        // @ts-ignore
+        value["going"] = value["going"] === "going" ? true : false;
       }
     }
 
+    const users = Object.entries(data).map(([key, value]) => {
+      if (isNumber(key)) {
+        value.id = Number(key);
+        return value;
+      }
+    });
+
+    const allData = {
+      users: users,
+      groupId: group?.id,
+      plusOneName: data.plusOneName,
+    };
+
     const response = await fetch("/api/rsvp", {
       method: "POST",
-      body: JSON.stringify(data),
+      body: JSON.stringify(allData),
     });
     if (response.status === 200) {
       setAlertOpen(true);
@@ -101,7 +118,7 @@ export default function RSVPPage() {
         {loading && <Loader text={"Loading..."} />}
         {!loading && (
           <section>
-            {users?.map((user) => {
+            {group?.users?.map((user) => {
               return (
                 <section
                   className="mb-8 flex flex-col content-center gap-4"
@@ -115,7 +132,9 @@ export default function RSVPPage() {
                         className="h-[30px] w-[30px]"
                         type="radio"
                         value="going"
-                        {...register(`${user.id}.going`, { required: true })}
+                        {...register(`${user.id}.going`, {
+                          required: true,
+                        })}
                       />
                     </label>
                     <label className="flex flex-col items-center justify-center gap-2 break-words text-center align-middle sm:w-1/5">
@@ -124,7 +143,9 @@ export default function RSVPPage() {
                         className="h-[30px] w-[30px]"
                         type="radio"
                         value="notGoing"
-                        {...register(`${user.id}.going`, { required: true })}
+                        {...register(`${user.id}.going`, {
+                          required: true,
+                        })}
                       />
                     </label>
                   </section>
@@ -147,7 +168,7 @@ export default function RSVPPage() {
                   <label className="flex items-center justify-between">
                     Dietary restrictions:
                     <input
-                      className="rounded-md text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
+                      className="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
                       disabled={watch(`${user.id}.going`) === "notGoing"}
                       type="text"
                       {...register(`${user.id}.dietaryRestrictions`, {
@@ -155,6 +176,22 @@ export default function RSVPPage() {
                       })}
                     />
                   </label>
+
+                  {group?.canHavePlusOne && (
+                    <>
+                      <h2 className="text-xl font-bold">Guest Name</h2>
+                      <label className="flex items-center justify-between">
+                        Name:
+                        <input
+                          className="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
+                          type="text"
+                          {...register(`plusOneName`, {
+                            required: false,
+                          })}
+                        />
+                      </label>
+                    </>
+                  )}
                 </section>
               );
             })}

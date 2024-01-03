@@ -2,17 +2,27 @@
 
 import { SignIn, SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
-import { getAllGroups, getAllPlusOnes, getAllUsers } from "../database";
+import {
+  deleteAllGroups,
+  deleteAllPlusOnes,
+  deleteAllUsers,
+  getAllGroups,
+  getAllPlusOnes,
+  getAllUsers,
+} from "../database";
 import { Group, PlusOne, User } from "@prisma/client";
+import { Button } from "@/components/ui/button";
 
 function Panel<T>({
   items,
   name,
   visualKeys,
+  deleteAll,
 }: {
   items: T[];
   name: string;
   visualKeys: string[];
+  deleteAll: () => void;
 }) {
   function makeSummary(item: T) {
     return visualKeys.map((key) => (item as any)[key]).join(" ");
@@ -20,6 +30,15 @@ function Panel<T>({
 
   return (
     <form className="flex flex-col rounded-md border border-slate-700 p-8">
+      <Button
+        variant={"destructive"}
+        onClick={(e) => {
+          e.preventDefault();
+          deleteAll();
+        }}
+      >
+        Delete All
+      </Button>
       <h1 className="text-4xl">{name}</h1>
       <label>
         {name}s : <input className=" text-neutral-900" type="text" />
@@ -60,7 +79,7 @@ function AdminPanel() {
     }
 
     loadAll();
-  });
+  }, []);
 
   return (
     <div className="p-4">
@@ -71,6 +90,7 @@ function AdminPanel() {
             items={allUsers}
             name="User"
             visualKeys={["firstName", "lastName"]}
+            deleteAll={deleteAllUsers}
           />
         )}
         {allGroups && (
@@ -78,6 +98,7 @@ function AdminPanel() {
             items={allGroups}
             name="Group"
             visualKeys={["clerkId"]}
+            deleteAll={deleteAllGroups}
           />
         )}
         {allPlusOnes && (
@@ -85,6 +106,7 @@ function AdminPanel() {
             items={allPlusOnes}
             name="PlusOne"
             visualKeys={["firstName", "lastName"]}
+            deleteAll={deleteAllPlusOnes}
           />
         )}
         <div className="rounded-md border border-slate-700 p-8">

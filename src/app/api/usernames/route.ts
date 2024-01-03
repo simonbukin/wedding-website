@@ -22,7 +22,7 @@ export async function GET() {
   });
   const file = fs.readFileSync(process.cwd() + "/src/app/guests.json", "utf8");
   let guests: Guest[] = JSON.parse(file.toString());
-  guests = guests.slice(0, 5);
+  guests = guests.slice(0, 10);
   const usernames = guests.map((guest) => guest.userName);
   for (const guest of guests) {
     const existingGroup = await getGroupByUserName(guest.userName);

@@ -1,6 +1,6 @@
 "use server";
 
-import { PrismaClient, Group, User } from "@prisma/client";
+import { PrismaClient, Group, User, PlusOne } from "@prisma/client";
 
 let prisma = new PrismaClient();
 
@@ -40,7 +40,7 @@ export async function getGroupByUserName(
 
 export async function getAllGroups(): Promise<Group[]> {
   return await prisma.group.findMany({
-    include: { users: true, plusOnes: true },
+    include: { users: true, plusOne: true },
   });
 }
 
@@ -70,7 +70,7 @@ export async function updateUser(
   });
 }
 
-export async function getAllUsers(): Promise<User[]> {
+export async function getAllUsers() {
   return await prisma.user.findMany({ include: { group: true } });
 }
 
@@ -99,6 +99,7 @@ export async function searchGroupById(clerkId: string) {
     },
     include: {
       users: true,
+      plusOne: true,
     },
   });
 }
@@ -111,14 +112,21 @@ export async function searchUserById(id: number) {
   });
 }
 
-export async function deleteAll() {
-  // console.log(await getAllPlusOnes());
-  await prisma.plusOne.deleteMany();
-  // console.log(await getAllPlusOnes());
-  // console.log(await getAllUsers());
+export async function deleteAllUsers() {
+  console.log("delete all users");
   await prisma.user.deleteMany();
-  // console.log(await getAllUsers());
-  // console.log(await getAllGroups());
+}
+
+export async function deleteAllPlusOnes() {
+  await prisma.plusOne.deleteMany();
+}
+
+export async function deleteAllGroups() {
   await prisma.group.deleteMany();
-  // console.log(await getAllGroups());
+}
+
+export async function deleteAll() {
+  await deleteAllUsers();
+  await deleteAllPlusOnes();
+  await deleteAllGroups();
 }
