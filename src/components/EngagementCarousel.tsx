@@ -39,29 +39,29 @@ export function EngagementCarousel() {
 
   const imageData = [
     {
-      src: "/1.avif",
+      src: "/1.jpg",
       alt: "Simon proposing to Kayla",
-      width: 1824,
-      height: 1216,
+      width: 2736,
+      height: 1824,
       priority: true,
     },
     {
-      src: "/2.avif",
+      src: "/2.jpg",
       alt: "Simon and Kayla laughing and holding hands",
-      width: 1824,
-      height: 1216,
+      width: 2736,
+      height: 1824,
     },
     {
-      src: "/3.avif",
+      src: "/3.jpg",
       alt: "Simon and Kayla laughing during a piggyback ride",
-      width: 1824,
-      height: 1216,
+      width: 2736,
+      height: 1824,
     },
     {
-      src: "/4.avif",
+      src: "/4.jpg",
       alt: "Simon and Kayla hugging next to a tree",
-      width: 1824,
-      height: 1216,
+      width: 2736,
+      height: 1824,
     },
   ];
 
