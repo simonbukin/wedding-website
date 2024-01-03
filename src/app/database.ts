@@ -88,6 +88,30 @@ export async function createPlusOne(
   });
 }
 
+export async function updatePlusOne(
+  plusOneId: number,
+  properties: Partial<PlusOne>
+) {
+  return prisma.plusOne.update({
+    where: {
+      id: plusOneId,
+    },
+    data: properties,
+  });
+}
+
+export async function searchPlusOneByNames(
+  firstName: string,
+  lastName: string
+) {
+  return await prisma.plusOne.findFirst({
+    where: {
+      firstName: firstName,
+      lastName: lastName,
+    },
+  });
+}
+
 export async function getAllPlusOnes() {
   return await prisma.plusOne.findMany();
 }
@@ -96,6 +120,18 @@ export async function searchGroupById(clerkId: string) {
   return await prisma.group.findFirst({
     where: {
       clerkId: clerkId,
+    },
+    include: {
+      users: true,
+      plusOne: true,
+    },
+  });
+}
+
+export async function searchGroupByNumericId(id: number) {
+  return await prisma.group.findFirst({
+    where: {
+      id: id,
     },
     include: {
       users: true,

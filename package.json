@@ -7,7 +7,6 @@
     "dev": "next dev",
     "dev:local": "next dev -H 10.0.0.9 -p 5000",
     "build": "next build",
-    "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",

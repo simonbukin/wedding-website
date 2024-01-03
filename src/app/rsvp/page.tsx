@@ -49,15 +49,30 @@ export default function RSVPPage() {
       await groupResponse.json();
     setGroup(group);
     if (group.plusOne) {
-      const { firstName, lastName } = group.plusOne;
-      setValue(`plusOneName`, `${firstName} ${lastName}`);
+      const {
+        firstName,
+        lastName,
+        going,
+        foodPreference,
+        dietaryRestrictions,
+      } = group.plusOne;
+      setValue(`plusOne.firstName`, firstName);
+      setValue(`plusOne.lastName`, lastName);
+      setValue(`plusOne.going`, going ? "going" : "notGoing");
+      if (foodPreference) {
+        setValue(`plusOne.foodPreference`, foodPreference);
+      } else {
+        setValue(`plusOne.foodPreference`, "");
+      }
+      setValue(`plusOne.dietaryRestrictions`, dietaryRestrictions);
     }
     group.users.forEach((user: User) => {
       setValue(`${user.id}.going`, user.going ? "going" : "notGoing");
-      setValue(
-        `${user.id}.foodPreference`,
-        user.foodPreference || Object.keys(FoodPreference)[0]
-      );
+      if (user.foodPreference) {
+        setValue(`${user.id}.foodPreference`, user.foodPreference);
+      } else {
+        setValue(`${user.id}.foodPreference`, "");
+      }
       setValue(`${user.id}.dietaryRestrictions`, user.dietaryRestrictions);
     });
     setLoading(false);
@@ -79,6 +94,10 @@ export default function RSVPPage() {
       }
     }
 
+    if (data.plusOne) {
+      data.plusOne.going = data.plusOne.going === "going" ? true : false;
+    }
+
     const users = Object.entries(data).map(([key, value]) => {
       if (isNumber(key)) {
         value.id = Number(key);
@@ -86,10 +105,12 @@ export default function RSVPPage() {
       }
     });
 
+    const filteredUsers = users.filter((user) => user);
+
     const allData = {
-      users: users,
+      users: filteredUsers,
       groupId: group?.id,
-      plusOneName: data.plusOneName,
+      plusOne: data.plusOne,
     };
 
     const response = await fetch("/api/rsvp", {
@@ -108,6 +129,64 @@ export default function RSVPPage() {
     console.log("errors! ", errors);
   };
 
+  const generateFormPerPerson = (person: User | PlusOne) => {
+    return (
+      <section className="mb-8 flex flex-col gap-4" key={person.id}>
+        <h2 className="text-xl font-bold">{`${person.firstName} ${person.lastName}`}</h2>
+        <section className="grid grid-cols-2 grid-rows-2 gap-4">
+          <label className="flex items-center justify-start gap-4">
+            <input
+              className="h-[30px] w-[30px] flex-shrink-0 accent-violet-800"
+              type="radio"
+              value="going"
+              {...register(`${person.id}.going`, {
+                required: true,
+              })}
+            />
+            Joyfully accept!
+          </label>
+
+          <select
+            className="rounded-md px-4 py-2 text-slate-900 disabled:border disabled:border-slate-900/30 disabled:bg-kaylasCoolColor disabled:text-slate-900/20"
+            disabled={watch(`${person.id}.going`) === "notGoing"}
+            {...register(`${person.id}.foodPreference`, {
+              required: true,
+            })}
+          >
+            <option value="" disabled>
+              Select your entree
+            </option>
+            {Object.keys(FoodPreference).map((key) => {
+              return <option key={key}>{key}</option>;
+            })}
+          </select>
+
+          <label className="flex items-center justify-start gap-4">
+            <input
+              className="h-[30px] w-[30px] flex-shrink-0 accent-violet-800"
+              type="radio"
+              value="notGoing"
+              {...register(`${person.id}.going`, {
+                required: true,
+              })}
+            />
+            Regretfully decline...
+          </label>
+
+          <input
+            className="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
+            disabled={watch(`${person.id}.going`) === "notGoing"}
+            placeholder="Dietary restrictions"
+            type="text"
+            {...register(`${person.id}.dietaryRestrictions`, {
+              required: false,
+            })}
+          />
+        </section>
+      </section>
+    );
+  };
+
   return (
     <section className="flex min-h-screen w-full flex-col p-4 text-slate-700 sm:mx-auto sm:max-w-screen-sm md:max-w-screen-md">
       <form
@@ -118,83 +197,62 @@ export default function RSVPPage() {
         {loading && <Loader text={"Loading..."} />}
         {!loading && (
           <section>
-            {group?.users?.map((user) => {
-              return (
-                <section
-                  className="mb-8 flex flex-col content-center gap-4"
-                  key={user.id}
-                >
-                  <h2 className="text-xl font-bold">{`${user.firstName} ${user.lastName}`}</h2>
-                  <section className="flex w-full justify-around">
-                    <label className="flex flex-col items-center justify-center gap-2 break-words text-center align-middle sm:w-1/5">
-                      Toasting to the happy couple!
-                      <input
-                        className="h-[30px] w-[30px]"
-                        type="radio"
-                        value="going"
-                        {...register(`${user.id}.going`, {
-                          required: true,
-                        })}
-                      />
-                    </label>
-                    <label className="flex flex-col items-center justify-center gap-2 break-words text-center align-middle sm:w-1/5">
-                      Regretfully sending love from afar
-                      <input
-                        className="h-[30px] w-[30px]"
-                        type="radio"
-                        value="notGoing"
-                        {...register(`${user.id}.going`, {
-                          required: true,
-                        })}
-                      />
-                    </label>
-                  </section>
+            {group?.users?.map((user) => generateFormPerPerson(user))}
+            {group?.canHavePlusOne && (
+              <>
+                <h2 className="mb-4 text-xl font-bold">Guest Name</h2>
+                <section className="grid grid-cols-2 grid-rows-2 gap-4">
+                  <input
+                    className="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
+                    type="text"
+                    placeholder="Plus one first name"
+                    {...register(`plusOne.firstName`, {
+                      required: false,
+                    })}
+                  />
 
-                  <label className="flex items-center justify-between">
-                    Entree selection:
-                    <select
-                      className="rounded-md px-4 py-2 text-slate-900 disabled:border disabled:border-slate-900/30 disabled:bg-kaylasCoolColor disabled:text-slate-900/20"
-                      disabled={watch(`${user.id}.going`) === "notGoing"}
-                      {...register(`${user.id}.foodPreference`, {
-                        required: true,
-                      })}
-                    >
-                      {Object.keys(FoodPreference).map((key) => {
-                        return <option key={key}>{key}</option>;
-                      })}
-                    </select>
-                  </label>
+                  <select
+                    className="rounded-md px-4 py-2 text-slate-900 disabled:border disabled:border-slate-900/30 disabled:bg-kaylasCoolColor disabled:text-slate-900/20"
+                    disabled={
+                      watch("plusOne.firstName") === "" ||
+                      watch("plusOne.lastName") === ""
+                    }
+                    {...register(`plusOne.foodPreference`, {
+                      required: true,
+                    })}
+                  >
+                    <option value="" disabled>
+                      Select your entree
+                    </option>
+                    {Object.keys(FoodPreference).map((key) => {
+                      return <option key={key}>{key}</option>;
+                    })}
+                  </select>
 
-                  <label className="flex items-center justify-between">
-                    Dietary restrictions:
-                    <input
-                      className="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
-                      disabled={watch(`${user.id}.going`) === "notGoing"}
-                      type="text"
-                      {...register(`${user.id}.dietaryRestrictions`, {
-                        required: false,
-                      })}
-                    />
-                  </label>
+                  <input
+                    className="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
+                    type="text"
+                    placeholder="Plus one last name"
+                    {...register(`plusOne.lastName`, {
+                      required: false,
+                    })}
+                  />
 
-                  {group?.canHavePlusOne && (
-                    <>
-                      <h2 className="text-xl font-bold">Guest Name</h2>
-                      <label className="flex items-center justify-between">
-                        Name:
-                        <input
-                          className="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
-                          type="text"
-                          {...register(`plusOneName`, {
-                            required: false,
-                          })}
-                        />
-                      </label>
-                    </>
-                  )}
+                  <input
+                    className="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
+                    disabled={
+                      watch("plusOne.firstName") === "" ||
+                      watch("plusOne.lastName") === ""
+                    }
+                    placeholder="Dietary restrictions"
+                    type="text"
+                    {...register(`plusOne.dietaryRestrictions`, {
+                      required: false,
+                    })}
+                  />
                 </section>
-              );
-            })}
+              </>
+            )}
           </section>
         )}
         <Button
