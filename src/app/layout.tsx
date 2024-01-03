@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const josefineSans = Josefin_Sans({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
     >
       <html lang="en">
         <body className={josefineSans.className + " bg-kaylasCoolColor"}>
+          <SpeedInsights />
           {children}
         </body>
       </html>
