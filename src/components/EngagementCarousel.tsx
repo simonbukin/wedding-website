@@ -5,15 +5,15 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
+import { CldImage } from "next-cloudinary";
 
 const CustomImage = ({
   path,
   width,
   height,
   alt,
-  priority = false,
+  priority = true,
 }: {
   path: string;
   width: number;
@@ -22,7 +22,7 @@ const CustomImage = ({
   priority: boolean;
 }) => {
   return (
-    <Image
+    <CldImage
       src={path}
       alt={alt}
       width={width}
@@ -39,29 +39,29 @@ export function EngagementCarousel() {
 
   const imageData = [
     {
-      src: "/1.jpg",
+      src: "https://res.cloudinary.com/dg0xe8vgc/image/upload/v1704314243/1_tktf21.jpg",
       alt: "Simon proposing to Kayla",
-      width: 2736,
-      height: 1824,
+      width: 1920,
+      height: 1280,
       priority: true,
     },
     {
-      src: "/2.jpg",
+      src: "https://res.cloudinary.com/dg0xe8vgc/image/upload/v1704314224/4-1_ajla8p.jpg",
       alt: "Simon and Kayla laughing and holding hands",
-      width: 2736,
-      height: 1824,
+      width: 1920,
+      height: 1280,
     },
     {
-      src: "/3.jpg",
+      src: "https://res.cloudinary.com/dg0xe8vgc/image/upload/v1704314236/2_pu1cox.jpg",
       alt: "Simon and Kayla laughing during a piggyback ride",
-      width: 2736,
-      height: 1824,
+      width: 1920,
+      height: 1280,
     },
     {
-      src: "/4.jpg",
+      src: "https://res.cloudinary.com/dg0xe8vgc/image/upload/v1704314236/3_srk9fl.jpg",
       alt: "Simon and Kayla hugging next to a tree",
-      width: 2736,
-      height: 1824,
+      width: 5472,
+      height: 1280,
     },
   ];
 
