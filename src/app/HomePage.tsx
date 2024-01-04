@@ -2,7 +2,6 @@ import { differenceInCalendarDays } from "date-fns";
 import { ToolTipWithMobileHover } from "@/components/ToolTipWithMobileHover";
 import { EngagementCarousel } from "@/components/EngagementCarousel";
 import { NavBar } from "@/components/NavBar";
-import LogInButton from "@/components/LogInButton";
 
 export default async function Homepage() {
   const daysUntilWedding = differenceInCalendarDays(
@@ -14,12 +13,11 @@ export default async function Homepage() {
     <div className="mx-auto flex min-h-screen w-full flex-col text-slate-700 sm:max-w-screen-sm md:max-w-screen-md">
       <section className="flex flex-col items-center justify-center sm:my-6 sm:flex-grow">
         <div className="mb-4 flex w-full flex-row items-center justify-around">
-          <h1 className="relative top-1 my-2 text-4xl font-bold sm:mb-4 sm:text-6xl">
+          <h1 className="relative top-1 my-2 text-5xl font-bold sm:mb-4 sm:text-6xl">
             SIMON{" "}
             <span className="relative bottom-1 sm:bottom-1 sm:text-7xl">+</span>{" "}
             KAYLA
           </h1>
-          <LogInButton />
         </div>
         <h2 className="flex flex-row gap-4 text-2xl sm:text-2xl">
           August 3rd, 2024 • Camarillo, CA
@@ -30,7 +28,7 @@ export default async function Homepage() {
       </section>
 
       <section className="flex flex-col items-center justify-center">
-        <nav className="order-3 flex flex-row justify-center sm:order-1 sm:mb-2 sm:mt-6">
+        <nav className="order-last flex h-full w-full flex-row justify-center sm:order-first sm:mb-2 sm:mt-6">
           <NavBar />
         </nav>
         <div className="h-full w-full">

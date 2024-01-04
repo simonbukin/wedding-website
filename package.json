@@ -2,7 +2,6 @@
   "name": "wedding-website-next",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "dev:local": "next dev -H 10.0.0.9 -p 5000",
@@ -14,6 +13,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.29.1",
+    "@next/bundle-analyzer": "^14.0.4",
     "@prisma/client": "^5.7.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-menubar": "^1.0.4",
@@ -26,6 +26,7 @@
     "@vercel/speed-insights": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "cross-env": "^7.0.3",
     "date-fns": "^3.0.6",
     "embla-carousel-autoplay": "^8.0.0-rc17",
     "embla-carousel-react": "^8.0.0-rc17",
