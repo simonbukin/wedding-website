@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export async function NavBar() {
   const buttonCss =
-    "w-full h-full border border-slate-700 bg-transparent text-xl text-slate-700 hover:bg-slate-400 hover:text-slate-100 sm:rounded-none sm:border-b-2 sm:border-l-0 sm:border-r-0 sm:border-t-0 sm:border-b-transparent sm:bg-transparent sm:text-slate-800 sm:hover:border-b-2 sm:hover:border-slate-800 sm:hover:bg-transparent sm:hover:text-slate-800";
+    "w-full h-full sm:px-4 sm:pb-0 sm:pt-4 border border-slate-700 bg-transparent text-xl text-slate-700 hover:bg-slate-400 hover:text-slate-100 sm:rounded-none sm:border-b-2 sm:border-l-0 sm:border-r-0 sm:border-t-0 sm:border-b-transparent sm:bg-transparent sm:text-slate-800 sm:hover:border-b-2 sm:hover:border-slate-800 sm:hover:bg-transparent sm:hover:text-slate-800";
 
   return (
     <nav className="mx-4 w-full">
