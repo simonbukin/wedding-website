@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useState } from "react";
 
-export function ToolTipWithMobileHover() {
+export default function ToolTipWithMobileHover() {
   const [confettiKey, setConfettiKey] = useState(0);
 
   return (

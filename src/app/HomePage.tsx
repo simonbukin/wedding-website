@@ -1,12 +1,19 @@
 import { differenceInCalendarDays } from "date-fns";
-import { ToolTipWithMobileHover } from "@/components/ToolTipWithMobileHover";
 import { EngagementCarousel } from "@/components/EngagementCarousel";
 import { NavBar } from "@/components/NavBar";
+import dynamic from "next/dynamic";
 
 export default async function Homepage() {
   const daysUntilWedding = differenceInCalendarDays(
     new Date(2024, 8, 3),
     new Date()
+  );
+
+  const DynamicToolTip = dynamic(
+    () => import("../components/ToolTipWithMobileHover"),
+    {
+      loading: () => <p>💜</p>,
+    }
   );
 
   return (
@@ -39,7 +46,7 @@ export default async function Homepage() {
       <footer className="mb-4 mt-8 flex flex-col items-center justify-around text-slate-500 sm:my-8 sm:flex-row">
         <section className="flex flex-row">
           <p>Made with</p>
-          <ToolTipWithMobileHover />
+          <DynamicToolTip />
           <p>
             by{" "}
             <a
