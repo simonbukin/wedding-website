@@ -1,0 +1,32 @@
+---
+import Bun from 'bun'
+import users from '../users.json'
+
+const errors = {message: ''};
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  const username = form.get('username');
+  const password = form.get('password');
+
+  const fileUser = users.find(user => user.username === username);
+
+  if (!fileUser) {
+    errors.message = 'invalid username or password'
+  } else {
+    const authStatus = await Bun.password.verify(password, fileUser.password);
+    if (authStatus) {
+      Astro.cookies.set('auth', fileUser.uuid, {maxAge: 60 * 60, path: '/'});
+      return Astro.redirect('/rsvp')
+    } else {
+      errors.message = 'invalid username or password'
+    }
+  }
+}
+---
+
+<form method="POST">
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" name="password" placeholder="Password">
+    {errors.message && <p>{errors.message}</p>}
+    <input type="submit" value="Login">
+</form>

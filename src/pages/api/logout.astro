@@ -1,0 +1,8 @@
+---
+if (Astro.request.method !== 'GET') {
+  return;
+}
+
+Astro.cookies.delete('auth', { path: '/' })
+return Astro.redirect('/')
+---

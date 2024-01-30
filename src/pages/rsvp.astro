@@ -1,0 +1,37 @@
+---
+import { supabase } from '../lib/supabase';
+if (!Astro.cookies.has('auth')) {
+  return Astro.redirect('/login')  
+}
+
+let rsvpData; 
+
+if (Astro.request.method === 'POST') {
+  const formData = await Astro.request.formData()
+  const { data, error } = await supabase.from('groups').upsert({
+    id: Astro.cookies.get('auth')?.value,
+    rsvp: JSON.stringify({
+      name: formData.get('name'),
+      email: formData.get('email')
+    })
+  }).select()
+  console.log(data, error)
+}
+
+if (Astro.request.method === "GET") {
+  const { data, error } = await supabase.from('groups').select().eq('id', Astro.cookies.get('auth')?.value)
+  if (!error) {
+    rsvpData = data;
+  }
+}
+---
+
+<h1>RSVP</h1>
+<p>You're logged in!</p>
+
+<pre>{JSON.stringify(rsvpData, null, 2)}</pre>
+
+  <form method="post">
+  <input type="text" name="name" placeholder="Your name" required>
+  <input type="email" name="email" placeholder="Your email" required>
+<button type="submit">RSVP</button>
