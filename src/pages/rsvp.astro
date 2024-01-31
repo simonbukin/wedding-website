@@ -1,37 +1,95 @@
 ---
+import RSVPForm from '../components/RSVPForm.astro';
+import Layout from '../layouts/Layout.astro';
 import { supabase } from '../lib/supabase';
+import { FoodChoice, type Group } from '../lib/types';
 if (!Astro.cookies.has('auth')) {
   return Astro.redirect('/login')  
 }
 
-let rsvpData; 
-
+let group: Group | undefined;
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData()
-  const { data, error } = await supabase.from('groups').upsert({
-    id: Astro.cookies.get('auth')?.value,
-    rsvp: JSON.stringify({
-      name: formData.get('name'),
-      email: formData.get('email')
-    })
-  }).select()
-  console.log(data, error)
+  group = await getGroupFromDb(Astro.cookies.get('auth')?.value || '');
+
+  if (group) {
+    // plus one
+    const firstName = formData.get('plusOneFirstName')?.toString();
+    const lastName = formData.get('plusOneLastName')?.toString();
+    const foodChoice = formData.get('plusOneFoodChoice')?.toString() as FoodChoice;
+    const dietaryPreference = formData.get('plusOneDietaryPreference')?.toString();
+
+    if (firstName && lastName && foodChoice && dietaryPreference) {
+      group.plusOne = {
+        going: true,
+        firstName,
+        lastName,
+        foodChoice,
+        dietaryPreference
+      }
+    }
+
+    const isFirstCharacterANumber = (str: string) => {
+      if (str.length === 0) return false;
+      // @ts-ignore
+      return !isNaN(Number.parseInt(str[0]));
+    }
+
+    const numericKeys = Array.from(formData.keys()).filter(key => isFirstCharacterANumber(key));
+    for (const key of numericKeys) {
+      let [index, property] = key.split('.');
+      let numericIndex = Number.parseInt(index || '');
+      const person = group.people[numericIndex]
+      if (property && person) {
+        if (property === 'going') {
+          person['going'] = formData.get(key)?.toString() === 'going';
+        } else {
+          // @ts-ignore
+          person[property] = formData.get(key)?.toString();
+        }
+      }
+    }
+
+    const { error } = await supabase.from('groups').upsert({
+      id: Astro.cookies.get('auth')?.value,
+      rsvp: JSON.stringify(group),
+    }).select()
+
+    if (error) {
+      console.error(error)
+    }
+  }
 }
 
 if (Astro.request.method === "GET") {
-  const { data, error } = await supabase.from('groups').select().eq('id', Astro.cookies.get('auth')?.value)
-  if (!error) {
-    rsvpData = data;
+  if (Astro.cookies.has('auth')) {
+    group = await getGroupFromDb(Astro.cookies.get('auth')?.value || '')
   }
 }
+
+async function getGroupFromDb(id: string) {
+  const { data, error } = await supabase.from('groups').select().eq('id', id)
+  if (!error) {
+    data as {
+      id: string,
+      rsvp: string,
+      created_at: string,
+    }[]
+    return JSON.parse(data[0].rsvp) as Group;
+  } else {
+    console.error(error)
+    return undefined;
+  }
+}
+
+if (!group) {
+  return Astro.redirect('/login')
+}
 ---
-
-<h1>RSVP</h1>
-<p>You're logged in!</p>
-
-<pre>{JSON.stringify(rsvpData, null, 2)}</pre>
-
-  <form method="post">
-  <input type="text" name="name" placeholder="Your name" required>
-  <input type="email" name="email" placeholder="Your email" required>
-<button type="submit">RSVP</button>
+<Layout title="RSVP">
+  <section class="flex min-h-screen w-full flex-col p-4 text-slate-700 sm:mx-auto sm:max-w-screen-sm md:max-w-screen-md">
+    <h1>RSVP</h1>
+    <pre>{JSON.stringify(group, null, 2)}</pre>
+    <RSVPForm group={group} />
+  </section>
+</Layout>

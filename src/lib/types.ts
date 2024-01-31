@@ -1,19 +1,20 @@
 export type Group = {
   id: string;
+  userName: string;
+  password: string;
   people: Person[];
   canHavePlusOne: boolean;
-  plusOne: Guest;
+  plusOne?: Guest;
 };
 
 export type Person = Guest | Child;
 
 export type Guest = {
-  id: string;
   going: boolean;
   firstName: string;
   lastName: string;
   foodChoice: FoodChoice;
-  dietaryPreference: string;
+  dietaryPreference?: string;
 };
 
 export type Child = Guest & {
@@ -22,8 +23,8 @@ export type Child = Guest & {
 };
 
 export enum FoodChoice {
-  CHICKEN,
-  STEAK,
-  VEGETARIAN,
-  KIDS,
+  CHICKEN = "Chicken",
+  SHORTRIB = "Shortrib",
+  VEGETARIAN = "Vegetarian",
+  KIDS_MEAL = "Kids Meal",
 }

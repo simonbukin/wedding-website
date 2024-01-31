@@ -1,6 +1,8 @@
 ---
 import Bun from 'bun'
-import users from '../users.json'
+import users from '../utils/users.json';
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
 
 const errors = {message: ''};
 if (Astro.request.method === 'POST') {
@@ -8,25 +10,34 @@ if (Astro.request.method === 'POST') {
   const username = form.get('username');
   const password = form.get('password');
 
-  const fileUser = users.find(user => user.username === username);
+  const fileUser = users.find(user => user.userName === username);
 
-  if (!fileUser) {
+  if (!fileUser || !password || !username) {
     errors.message = 'invalid username or password'
   } else {
-    const authStatus = await Bun.password.verify(password, fileUser.password);
+    const authStatus = await Bun.password.verify(password.toString(), fileUser.password);
     if (authStatus) {
-      Astro.cookies.set('auth', fileUser.uuid, {maxAge: 60 * 60, path: '/'});
+      Astro.cookies.set('auth', fileUser.id, {maxAge: 60 * 60, path: '/'});
       return Astro.redirect('/rsvp')
     } else {
       errors.message = 'invalid username or password'
     }
   }
 }
+
+if (Astro.request.method === 'GET' && Astro.cookies.has('auth')) {
+  return Astro.redirect('/')
+}
 ---
 
-<form method="POST">
-    <input type="text" name="username" placeholder="Username">
-    <input type="password" name="password" placeholder="Password">
-    {errors.message && <p>{errors.message}</p>}
-    <input type="submit" value="Login">
-</form>
+<Layout title="Login">
+  <div class="text-xl min-h-screen grid place-content-center">
+    <NavBar/>
+    <form class="flex flex-col gap-2 *:px-3 *:py-2" method="POST">
+      <input type="text" name="username" placeholder="Username">
+      <input type="password" name="password" placeholder="Password">
+      {errors.message && <p>{errors.message}</p>}
+      <input type="submit" value="Login">
+    </form>
+  </div>
+</Layout>
