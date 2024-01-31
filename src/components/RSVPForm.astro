@@ -12,7 +12,13 @@ const { group } = Astro.props;
 <form method="post"
       hx-post="/rsvp"
       hx-target="body"
-      class="flex flex-col gap-4 rounded-md border border-slate-600 p-4">
+      class="flex flex-col bg-kaylasCoolColor/80 gap-4 rounded-md border border-slate-600 p-4"
+      x-data={`{
+                  plusOneFirstName: "${group?.plusOne?.firstName}",
+                  plusOneLastName: "${group?.plusOne?.lastName}",
+                  submitted: false
+                }`}
+>
   {group?.people.map((person, index) => {
     return (
       <PersonForm person={person} index={index} />
@@ -20,7 +26,8 @@ const { group } = Astro.props;
   })}
   {group?.canHavePlusOne && (
     <>
-      <h2 class="mb-4 text-xl font-bold">Guest Name</h2>
+      <h2 class="mb-4 text-xl font-bold"
+          x-text="`${plusOneFirstName} ${plusOneLastName}`">Guest Name</h2>
       <section class="grid grid-cols-2 grid-rows-2 gap-4">
         <input
           class="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
@@ -28,10 +35,12 @@ const { group } = Astro.props;
           value={group?.plusOne?.firstName}
           placeholder="Plus one first name"
           name="plusOneFirstName"
+          x-model="plusOneFirstName"
         />
 
         <select
-          name="plusOneFoodChoice" class="rounded-md px-4 py-2 text-slate-900 disabled:border disabled:border-slate-900/30 disabled:bg-kaylasCoolColor disabled:text-slate-900/20"
+          name="plusOneFoodChoice"
+          class="rounded-md px-4 py-2 text-slate-900 disabled:border disabled:border-slate-900/30 disabled:bg-kaylasCoolColor disabled:text-slate-900/20"
         >
           <option value="" disabled>
             Select your entree
@@ -47,6 +56,7 @@ const { group } = Astro.props;
           value={group?.plusOne?.lastName}
           placeholder="Plus one last name"
           name="plusOneLastName"
+          x-model="plusOneLastName"
         />
 
         <input

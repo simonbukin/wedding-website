@@ -2,7 +2,6 @@
 import Bun from 'bun'
 import users from '../utils/users.json';
 import Layout from '../layouts/Layout.astro';
-import NavBar from '../components/NavBar.astro';
 
 const errors = {message: ''};
 if (Astro.request.method === 'POST') {
@@ -32,7 +31,6 @@ if (Astro.request.method === 'GET' && Astro.cookies.has('auth')) {
 
 <Layout title="Login">
   <div class="text-xl min-h-screen grid place-content-center">
-    <NavBar/>
     <form class="flex flex-col gap-2 *:px-3 *:py-2" method="POST">
       <input type="text" name="username" placeholder="Username">
       <input type="password" name="password" placeholder="Password">

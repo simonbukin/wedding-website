@@ -37,7 +37,12 @@ export default function Carousel() {
         {imageData.map((image) => {
           return (
             <div class="embla__slide">
-              <Image layout="fullWidth" src={image.src} alt={image.alt} />
+              <Image
+                priority
+                layout="fullWidth"
+                src={image.src}
+                alt={image.alt}
+              />
             </div>
           );
         })}

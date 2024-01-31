@@ -10,12 +10,15 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/alpinejs": "^0.4.0",
     "@astrojs/check": "^0.4.1",
     "@astrojs/solid-js": "^4.0.1",
     "@astrojs/tailwind": "^5.1.0",
     "@fontsource-variable/josefin-sans": "^5.0.19",
     "@supabase/supabase-js": "^2.39.3",
+    "@types/alpinejs": "^3.13.6",
     "@unpic/solid": "^0.0.44",
+    "alpinejs": "^3.13.5",
     "astro": "^4.2.6",
     "astro-htmx": "^1.0.5",
     "csv-parse": "^5.5.3",

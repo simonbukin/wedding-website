@@ -11,16 +11,10 @@ const daysUntilWedding = differenceInCalendarDays(
 ---
 
 <Layout title="Simon & Kayla">
-		<!-- <main>
-			<a href="/login">Login</a>
-			<a href="/api/logout">Logout</a>
-			<a href="/rsvp">RSVP</a>
-		</main> -->
 	<main class="mx-auto flex min-h-screen w-full flex-col text-slate-700 sm:max-w-screen-sm md:max-w-screen-md">
-		<div class="background" />
 		<section class="flex flex-col items-center justify-center sm:my-6 sm:flex-grow">
 			<div class="mb-4 flex w-full flex-row items-center justify-around">
-				<h1 class="relative top-1 my-2 text-center text-4xl font-bold sm:mb-4 sm:text-6xl">
+				<h1 transition:animate="slide" class="relative top-1 my-2 text-center text-4xl font-bold sm:mb-4 sm:text-6xl">
 					SIMON{" "}
 					<span class="relative bottom-1 sm:bottom-1 sm:text-7xl">+</span>{" "}
 					KAYLA
@@ -38,7 +32,7 @@ const daysUntilWedding = differenceInCalendarDays(
 			<nav class="order-last flex h-full w-full flex-row justify-center sm:order-first sm:mb-2 sm:mt-6">
 				<NavBar />
 			</nav>
-			<div class="h-full w-full">
+			<div class="h-[283px] sm:h-[513px] w-full">
 				<Carousel client:only="solidjs" />
 			</div>
 		</section>

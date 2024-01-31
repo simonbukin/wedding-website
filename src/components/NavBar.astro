@@ -1,8 +1,35 @@
 ---
-const anchorCss = "cursor-pointer w-full h-full pb-1 sm:px-4 sm:pt-4 border border-slate-700 bg-transparent text-xl text-slate-700 hover:bg-slate-400 hover:text-slate-100 sm:rounded-none sm:border-b-2 sm:border-l-0 sm:border-r-0 sm:border-t-0 sm:border-b-transparent sm:bg-transparent sm:text-slate-800 sm:hover:border-b-2 sm:hover:border-slate-800 sm:hover:bg-transparent sm:hover:text-slate-800";
 const loggedIn = Astro.cookies.has('auth');
+const anchorCss = `cursor-pointer
+                   pb-1
+                   block 
+                   rounded-md
+                   p-2 
+                   border
+                   border-slate-700
+                   bg-transparent
+                   text-xl
+                   text-slate-700
+                   text-center
+                   hover:bg-slate-400
+                   hover:text-slate-100
+                   sm:px-4
+                   sm:pt-4
+                   sm:rounded-none
+                   sm:border-b-2
+                   sm:border-l-0 
+                   sm:border-r-0
+                   sm:border-t-0
+                   sm:border-b-transparent
+                   sm:bg-transparent
+                   sm:text-slate-800
+                   sm:hover:border-b-2
+                   sm:hover:border-slate-800
+                   sm:hover:bg-transparent
+                   sm:hover:text-slate-800`
 ---
-<nav class="mx-4 w-full">
+
+<nav class="mx-4 w-full mt-4">
   <ul hx-boost="true" class="sm:align-center grid h-full w-full grid-cols-2 grid-rows-3 gap-4 sm:flex sm:flex-row sm:justify-center">
     <li class="col-span-2">
       <a class={anchorCss} href="/rsvp">RSVP</a>
@@ -16,7 +43,7 @@ const loggedIn = Astro.cookies.has('auth');
     <li>
         <a
           target="_blank"
-          class={anchorCss}
+          class={anchorCss} 
           href="https://www.amazon.com/wedding/share/simonandkayla"
         >
           Registry
