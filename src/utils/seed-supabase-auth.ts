@@ -1,11 +1,13 @@
 import { createClient, type User } from "@supabase/supabase-js";
-import * as guests from "./guests.json";
 
+let guests;
 const supabaseUrl = Bun.env.SUPABASE_URL;
 const supabaseKey = Bun.env.SUPABASE_SERVICE_ROLE;
 
 if (!supabaseUrl || !supabaseKey) {
   throw new Error("No SUPABASE_URL and SUPABASE_ANON_KEY found in.env file");
+} else {
+  guests = await import("./guests.json");
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -20,6 +22,7 @@ async function createAccount(email: string, password: string) {
     return data;
   } catch (error) {
     console.error("Error creating account:", error);
+    return null;
   }
 }
 
@@ -49,7 +52,9 @@ export async function getAllUserAccounts() {
       console.error("Error getting all users:", error);
     }
     userAccounts.users.push(...data.users);
+    // @ts-ignore
     if (data.nextPage) {
+      // @ts-ignore
       nextPage = data.nextPage;
     } else {
       break;
@@ -60,5 +65,6 @@ export async function getAllUserAccounts() {
 }
 
 await clearAllAccounts();
+// @ts-ignore
 await makeGuestAccounts(guests.default.map((guest) => guest.userName));
 await getAllUserAccounts();
