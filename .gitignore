@@ -1,6 +1,8 @@
 # build output
 dist/
 
+.vercel/
+
 **/guests.csv
 **/guests.json
 **/users.json
