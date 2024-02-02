@@ -1,8 +1,9 @@
 ---
+import { supabase } from "../../lib/supabase";
 if (Astro.request.method !== 'GET') {
   return;
 }
 
-Astro.cookies.delete('auth', { path: '/' })
+await supabase.auth.signOut();
 return Astro.redirect('/')
 ---

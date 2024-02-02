@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import users from "./users.json";
+import { getAllUserAccounts } from "./seed-supabase-auth";
+import * as users from "./users.json";
 
 const supabaseUrl = Bun.env.SUPABASE_URL;
 const supabaseKey = Bun.env.SUPABASE_ANON_KEY;
@@ -9,15 +10,22 @@ if (!supabaseUrl || !supabaseKey) {
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
+const authUsers = (await getAllUserAccounts()).users;
+// @ts-ignore
+const userData = users.default;
 
 const seedDatabase = async () => {
-  console.log(users);
-  for (const user of users.slice(0, 5)) {
+  for (const user of authUsers) {
+    const [username, _] = user?.email?.split("@") || "";
+    const userDataEntry = userData.find((entry) => entry.userName === username);
+
+    console.log(userDataEntry);
+
     await supabase
       .from("groups")
       .upsert({
         id: user.id,
-        rsvp: JSON.stringify(user),
+        rsvp: JSON.stringify(userDataEntry),
       })
       .select();
   }

@@ -3,15 +3,23 @@ import RSVPForm from '../components/RSVPForm.astro';
 import Layout from '../layouts/Layout.astro';
 import { supabase } from '../lib/supabase';
 import { FoodChoice, type Group } from '../lib/types';
-if (!Astro.cookies.has('auth')) {
-  return Astro.redirect('/login')  
+
+const { data, error } = await supabase.auth.getSession();
+const session = data.session;
+
+if (error) {
+  console.error(error)
+}
+
+if (!session) {
+  return Astro.redirect('/login')
 }
 
 let group: Group | undefined;
 let submitted: boolean = false;
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData()
-  group = await getGroupFromDb(Astro.cookies.get('auth')?.value || '');
+  group = await getGroupFromDb(session.user?.id);
 
   if (group) {
     // plus one
@@ -52,7 +60,7 @@ if (Astro.request.method === 'POST') {
     }
 
     const { error } = await supabase.from('groups').upsert({
-      id: Astro.cookies.get('auth')?.value,
+      id: session.user?.id, 
       rsvp: JSON.stringify(group),
     }).select()
 
@@ -65,9 +73,7 @@ if (Astro.request.method === 'POST') {
 }
 
 if (Astro.request.method === "GET") {
-  if (Astro.cookies.has('auth')) {
-    group = await getGroupFromDb(Astro.cookies.get('auth')?.value || '')
-  }
+  group = await getGroupFromDb(session.user?.id)
 }
 
 async function getGroupFromDb(id: string) {
@@ -92,7 +98,7 @@ if (!group) {
 <Layout title="RSVP">
   <section x-data=`{ submitted: ${submitted}}` class="flex min-h-screen w-full flex-col p-4 text-slate-700 sm:mx-auto sm:max-w-screen-sm md:max-w-screen-md">
     <h1 class="text-4xl text-bold my-2">RSVP</h1>
-    <div x-show="true" class="fixed flex top-0 left-0 w-full h-full bg-black/50 justify-center items-center z-10">
+    <div x-show="submitted" class="fixed flex top-0 left-0 w-full h-full bg-black/50 justify-center items-center z-10">
       <div class="bg-white p-8 rounded-md shadow-lg text-center flex flex-col">
         <h2 class="text-left text-2xl font-bold mb-4">Thank you for RSVPing!</h2>
         <p class="text-gray-600 mb-6">You can change your RSVP anytime up until we say you can't</p>

@@ -1,5 +1,12 @@
 ---
-const loggedIn = Astro.cookies.has('auth');
+import { supabase } from "../lib/supabase";
+
+const { data, error } = await supabase.auth.getSession();
+const loggedIn = data.session;
+if (error) {
+  console.error(error);
+}
+
 const anchorCss = `cursor-pointer
                    pb-1
                    block 

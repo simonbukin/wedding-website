@@ -1,7 +1,6 @@
 export type Group = {
   id: string;
   userName: string;
-  password: string;
   people: Person[];
   canHavePlusOne: boolean;
   plusOne?: Guest;

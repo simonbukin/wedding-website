@@ -1,38 +1,40 @@
 ---
-import Bun from 'bun'
-import users from '../utils/users.json';
 import Layout from '../layouts/Layout.astro';
+import { supabase } from '../lib/supabase';
 
 const errors = {message: ''};
+const { data, error } = await supabase.auth.getSession();
+const session = data.session;
+if (error) {
+  console.error(error);
+}
+
 if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData();
-  const username = form.get('username');
-  const password = form.get('password');
+  const email = form.get('email')?.toString().trim();
+  const password = form.get('password')?.toString().trim();
 
-  const fileUser = users.find(user => user.userName === username);
-
-  if (!fileUser || !password || !username) {
-    errors.message = 'invalid username or password'
+  if (!email || !password) {
+    errors.message = 'invalid email or password'
   } else {
-    const authStatus = await Bun.password.verify(password.toString(), fileUser.password);
-    if (authStatus) {
-      Astro.cookies.set('auth', fileUser.id, {maxAge: 60 * 60, path: '/'});
-      return Astro.redirect('/rsvp')
+    const { error } = await supabase.auth.signInWithPassword({email, password});
+    if (error) {
+      errors.message = error.message;
     } else {
-      errors.message = 'invalid username or password'
+      return Astro.redirect('/rsvp')
     }
   }
 }
 
-if (Astro.request.method === 'GET' && Astro.cookies.has('auth')) {
-  return Astro.redirect('/')
+if (Astro.request.method === 'GET' && session) {
+  return Astro.redirect('/')  
 }
 ---
 
 <Layout title="Login">
   <div class="text-xl min-h-screen grid place-content-center">
     <form class="flex flex-col gap-2 *:px-3 *:py-2" method="POST">
-      <input type="text" name="username" placeholder="Username">
+      <input type="text" name="email" placeholder="Email">
       <input type="password" name="password" placeholder="Password">
       {errors.message && <p>{errors.message}</p>}
       <input type="submit" value="Login">
