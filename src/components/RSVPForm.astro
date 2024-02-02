@@ -14,10 +14,11 @@ const { group } = Astro.props;
       hx-target="body"
       class="flex flex-col bg-kaylasCoolColor/80 gap-4 rounded-md border border-slate-600 p-4"
       x-data={`{
-                  plusOneFirstName: "${group?.plusOne?.firstName}",
-                  plusOneLastName: "${group?.plusOne?.lastName}",
+                  plusOneFirstName: "${group?.plusOne?.firstName || 'Guest'}",
+                  plusOneLastName: "${group?.plusOne?.lastName || 'Name'}",
                   submitted: false
                 }`}
+      x-effect="console.log(plusOneFirstName)"
 >
   {group?.people.map((person, index) => {
     return (
@@ -61,7 +62,7 @@ const { group } = Astro.props;
 
         <input
           class="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
-          placeholder="Dietary "
+          placeholder="Dietary restrictions"
           type="text"
           value={group?.plusOne?.dietaryPreference}
           name="plusOneDietaryPreference"
