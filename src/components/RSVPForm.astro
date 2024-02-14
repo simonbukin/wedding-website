@@ -18,7 +18,6 @@ const { group } = Astro.props;
                   plusOneLastName: "${group?.plusOne?.lastName || 'Name'}",
                   submitted: false
                 }`}
-      x-effect="console.log(plusOneFirstName)"
 >
   {group?.people.map((person, index) => {
     return (
@@ -70,5 +69,5 @@ const { group } = Astro.props;
       </section>
     </>
   )}
-  <button type="submit" class="rounded-md border border-slate-700 bg-blue-300 py-4 text-xl font-bold text-slate-900 hover:bg-blue-500">RSVP</button>
+  <button type="submit" class="text-white rounded-md border border-slate-700 bg-simonsCoolColor py-4 text-xl font-bold hover:bg-simonsCoolColor/50 ">RSVP</button>
 </form>

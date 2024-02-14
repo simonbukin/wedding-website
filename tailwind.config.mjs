@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         kaylasCoolColor: "#ABCDEF",
+        simonsCoolColor: "#8458A4",
       },
     },
   },
