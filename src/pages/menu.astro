@@ -1,6 +1,21 @@
 ---
+import HorizontalBar from "../components/HorizontalBar.astro"
 import Layout from "../layouts/Layout.astro"
 ---
 <Layout title="Menu">
-  Menu!
+  <main class="px-4 bg-kaylasCoolColor/80 mx-auto flex min-h-screen w-full flex-col text-slate-700 sm:max-w-screen-sm md:max-w-screen-md">
+    <div class="mt-5 flex flex-row items-center justify-center gap-3">
+      <a href="/" class="relative -top-[4px] grid place-content-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </a>
+      <h1 class="text-3xl ">Menu</h1>
+      <ul class="text-xl full flex flex-row w-full items-center justify-around">
+        <li><a href="#vegetarian">Vegetarian</a></li>
+        <li><a href="#vegan">Vegan</a></li>
+        <li><a href="#gluten-free">Gluten Free</a></li>
+        <li><a href="#kids">Kids</a></li>
+      </ul>
+    </div>
+    <HorizontalBar />
+  </main>
 </Layout>

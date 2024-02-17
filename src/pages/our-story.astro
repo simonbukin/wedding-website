@@ -1,6 +1,41 @@
 ---
 import Layout from "../layouts/Layout.astro"
+import HorizontalBar from "../components/HorizontalBar.astro"
 ---
 <Layout title="Our Story">
-  Our Story!
+  <main class="max-w-6xl px-4 bg-kaylasCoolColor/80 mx-auto flex min-h-screen w-full flex-col text-slate-700">
+    <div class="mt-5 flex flex-row items-center justify-center gap-3">
+      <a href="/" class="relative -top-[4px] grid place-content-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </a>
+      <h1 class="text-3xl ">Our Story</h1>
+    </div>
+    <HorizontalBar />
+    <h1 class="text-3xl">TL;DR</h1>
+    <HorizontalBar />
+    <div class="flex flex-row gap-4">
+        <div class="flex flex-col gap-8">
+          <img class="aspect-square" src="https://placehold.co/400x400" />
+          <img class="aspect-square" src="https://placehold.co/400x400" />
+          <img class="aspect-square" src="https://placehold.co/400x400" />
+          <img class="aspect-square" src="https://placehold.co/400x400" />
+          <img class="aspect-square" src="https://placehold.co/400x400" />
+        </div>
+
+        <div>
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus illum dolores distinctio nulla quis! Ea fuga dolorem provident dolor. Porro ut sed id nesciunt incidunt quisquam eveniet laboriosam facere delectus?</p>
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus illum dolores distinctio nulla quis! Ea fuga dolorem provident dolor. Porro ut sed id nesciunt incidunt quisquam eveniet laboriosam facere delectus?</p>
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus illum dolores distinctio nulla quis! Ea fuga dolorem provident dolor. Porro ut sed id nesciunt incidunt quisquam eveniet laboriosam facere delectus?</p>
+        </div>
+
+        <div class="flex flex-col gap-8 mt-16">
+          <img class="aspect-square" src="https://placehold.co/400x400" />
+          <img class="aspect-square" src="https://placehold.co/400x400" />
+          <img class="aspect-square" src="https://placehold.co/400x400" />
+          <img class="aspect-square" src="https://placehold.co/400x400" />
+        </div>
+    </div>
+    
+    
+  </main>
 </Layout>

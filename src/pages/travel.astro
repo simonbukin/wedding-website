@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro"
 import EmbedMap from '../components/EmbedMap.astro'
+import HorizontalBar from '../components/HorizontalBar.astro'
 ---
 <Layout title="Travel">
   <main class="px-4 bg-kaylasCoolColor/80 mx-auto flex min-h-screen w-full flex-col text-slate-700 sm:max-w-screen-sm md:max-w-screen-md">
@@ -22,22 +23,23 @@ import EmbedMap from '../components/EmbedMap.astro'
       <EmbedMap />
     </div>
 
-    <div class="my-4 h-[3px] w-full border-slate-700 border" />
-    
+    <HorizontalBar />
+
     <h1 id="airports" class="my-4 text-2xl">Airports <span class="text-lg">(and approximate driving time to venue)</span></h1>
     <ul>
-      <li><a href="">Hollywood Burbank Airport - 45 minutes</a></li>
-      <li><a href="">Los Angeles International Airport - 1 hour</a></li>
-      <li><a href="">Long Beach Airport - 1.5 hours</a></li>
+      <li>Hollywood Burbank Airport (BUR) - 45 minutes</li>
+      <li>Los Angeles International Airport (LAX) - 1 hour</li>
+      <li>Long Beach Airport (LGB) - 1.5 hours</li>
     </ul>
 
-    <div class="my-4 h-[3px] w-full border-slate-700 border" />
+    <HorizontalBar />
 
     <h1 id="hotels" class="my-4 text-2xl">Hotels <span class="text-lg">(and approximate driving time to venue)</span></h1>
     <ul class="mb-32">
-      <li><a href="">Hotel 1</a></li>
-      <li><a href="">Hotel 2</a></li>
-      <li><a href="">Hotel 3</a></li>
+      <li><a class="hover:underline" href="https://www.marriott.com/en-us/hotels/laxwc-warner-center-marriott-woodland-hills/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0">Warner Center Marriott Woodland Hills</a> - 30 minutes </li>
+      <li><a class="hover:underline" href="https://www.marriott.com/en-us/hotels/oxrtc-courtyard-thousand-oaks-agoura-hills/overview/">Courtyard Thousand Oaks Agoura Hills</a> - 15 minutes </li>
+      <li><a class="hover:underline" href="https://www.bestwestern.com/en_US/book/hotel-rooms.05662.html?iata=00171880&ssob=BLBWI0004G&cid=BLBWI0004G:google:gmb:05662">Best Western Posada Royale Hotel and Suites</a> - 20 minutes </li>
+      <li><a class="hover:underline" href="https://www.sonesta.com/sonesta-select/ca/camarillo/sonesta-select-camarillo">Sonesta Select Camarillo</a> - 10 minutes </li>
     </ul> 
   </main>
 </Layout>
