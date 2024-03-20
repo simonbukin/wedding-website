@@ -1,7 +1,7 @@
 ---
-import '@fontsource-variable/josefin-sans';
+import "@fontsource-variable/josefin-sans";
 interface Props {
-	title: string;
+    title: string;
 }
 
 const { title } = Astro.props;
@@ -9,34 +9,34 @@ const { title } = Astro.props;
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<a rel="icon" type="image/svg+xml" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<div class="background" />
-		<slot />
-	</body>
-	<style is:global>
-		html {
-			font-family: 'Josefin Sans Variable', sans-serif;
-			@apply bg-white
-		}
-		.background {
-			position: fixed;
-			top: 0;
-			left: 0;
-			opacity: 0.7;
-			width: 100vw;
-			height: 100vh;
-			z-index: -1;
-			background: url("https://res.cloudinary.com/dg0xe8vgc/image/upload/v1707868760/bg_qondla.png");
-			background-size: auto 100%;
-			background-repeat: no-repeat;
-		}
-	</style>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="Astro description" />
+        <meta name="viewport" content="width=device-width" />
+    </head><a rel="icon" type="image/svg+xml" href="/favicon.ico"></a>
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+
+    <body>
+        <div class="background"></div>
+        <slot />
+    </body>
+    <style is:global>
+        html {
+            font-family: "Josefin Sans Variable", sans-serif;
+            @apply bg-white;
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            opacity: 0.7;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: url("https://res.cloudinary.com/dg0xe8vgc/image/upload/v1707868760/bg_qondla.png");
+            background-size: auto 100%;
+            background-repeat: no-repeat;
+        }
+    </style>
 </html>
