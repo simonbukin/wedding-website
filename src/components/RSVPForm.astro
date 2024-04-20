@@ -7,6 +7,8 @@ interface Props {
 }
 
 const { group } = Astro.props;
+
+const isAfterDates = new Date() > new Date('2024-07-01')
 ---
 
 <form method="post"
@@ -16,9 +18,15 @@ const { group } = Astro.props;
       x-data={`{
                   plusOneFirstName: "${group?.plusOne?.firstName || 'Guest'}",
                   plusOneLastName: "${group?.plusOne?.lastName || 'Name'}",
-                  submitted: false
+                  submitted: false,
+                  hasKidsMeal: ${group?.people.some(person => person.foodChoice === 'KIDS_MEAL')},
                 }`}
+      x-on:food-choice="hasKidsMeal = hasKidsMeal ? true : $event.target.value === 'KIDS_MEAL'"
+      x-effect="console.log('hasKidsMeal', hasKidsMeal)"  
 >
+  {isAfterDates && (
+    <p class="text-red-500 text-lg font-bold">RSVPs are closed!</p>
+  )}
   {group?.people.map((person, index) => {
     return (
       <PersonForm person={person} index={index} />
@@ -69,5 +77,11 @@ const { group } = Astro.props;
       </section>
     </>
   )}
-  <button type="submit" class="text-white rounded-md border border-slate-700 bg-simonsCoolColor py-4 text-xl font-bold hover:bg-simonsCoolColor/50 ">RSVP</button>
+  
+  <div x-show="hasKidsMeal" class="w-full flex flex-row justify-between items-center ">
+    <label for="highChairs" class="text-gray-700">How many high chairs do you need?</label>
+    <input disabled={isAfterDates} value={group?.highChairs || 0} type="number" min="0" max="3" name="highChairs" id="highChairs" class="rounded-md p-2 text-slate-900 border border-slate-900/20" />
+  </div>
+
+  <button type="submit" disabled={isAfterDates} class="text-white rounded-md border border-slate-700 disabled:border-slate-300 bg-simonsCoolColor py-4 text-xl font-bold hover:bg-simonsCoolColor/50 disabled:bg-simonsCoolColor/20">RSVP</button>
 </form>

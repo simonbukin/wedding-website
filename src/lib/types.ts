@@ -4,6 +4,7 @@ export type Group = {
   people: Person[];
   canHavePlusOne: boolean;
   plusOne?: Guest;
+  highChairs?: number;
 };
 
 export type Person = Guest | Child;
@@ -12,7 +13,7 @@ export type Guest = {
   going: boolean;
   firstName: string;
   lastName: string;
-  foodChoice: FoodChoice;
+  foodChoice: FoodChoice | string;
   dietaryPreference?: string;
 };
 

@@ -6,6 +6,8 @@ interface Props {
 }
 
 const { person, index } = Astro.props;
+
+const isAfterDates = new Date() > new Date('2024-07-01')
 ---
 
 <section
@@ -22,6 +24,7 @@ const { person, index } = Astro.props;
         name=`${index}.going`
         checked={person.going}
         x-model="going"
+        disabled={isAfterDates}
       />
       Joyfully accept!
     </label>
@@ -30,12 +33,14 @@ const { person, index } = Astro.props;
       class="rounded-md px-4 py-2 text-slate-900 border border-transparent disabled:border-slate-900/30 disabled:bg-kaylasCoolColor disabled:text-slate-900/20"
       name=`${index}.foodChoice`
       x-bind:disabled="going !== 'going'"
+      disabled={isAfterDates}
+      @change="$dispatch('food-choice', { hasKidsMeal: $event.target.value === 'KIDS_MEAL' })"
     >
       <option value="" disabled>
         Select your entree
       </option>
-      {Object.keys(FoodChoice).map((key) => {
-        return <option selected={person.foodChoice === (key as FoodChoice)}>{key}</option>;
+      {Object.entries(FoodChoice).map(([key, value]) => {
+        return <option value={key} selected={person.foodChoice === key}>{value}</option>;
       })}
     </select>
 
@@ -47,6 +52,7 @@ const { person, index } = Astro.props;
         name=`${index}.going`
         checked={!person.going}
         x-model="going"
+        disabled={isAfterDates}
       />
       Regretfully decline...
     </label>
@@ -58,6 +64,7 @@ const { person, index } = Astro.props;
       value={person.dietaryPreference}
       name=`${index}.dietaryPreference`
       x-bind:disabled="going !== 'going'"
+      disabled={isAfterDates}
     />
   </section>
 </section>
