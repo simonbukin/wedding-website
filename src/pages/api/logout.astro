@@ -1,9 +1,13 @@
 ---
 import { supabase } from "../../lib/supabase";
+import PostHogClient from '../../posthog';
+
+const phClient = PostHogClient();
 if (Astro.request.method !== 'GET') {
   return;
 }
 
 await supabase.auth.signOut();
+phClient.reset()
 return Astro.redirect('/')
 ---

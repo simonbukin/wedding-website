@@ -3,6 +3,9 @@ import RSVPForm from '../components/RSVPForm.astro';
 import Layout from '../layouts/Layout.astro';
 import { supabase } from '../lib/supabase';
 import { FoodChoice, type Group } from '../lib/types';
+import PostHogClient from '../posthog';
+
+const phClient = PostHogClient();
 
 const { data, error } = await supabase.auth.getSession();
 const session = data.session;
@@ -20,6 +23,8 @@ let submitted: boolean = false;
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData()
   group = await getGroupFromDb(session.user?.id);
+
+  phClient.capture('rsvp', {form: formData, group})
 
   if (group) {
     // plus one

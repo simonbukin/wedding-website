@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { supabase } from '../lib/supabase';
+import PostHogClient from '../posthog';
+
+const phClient = PostHogClient();
 
 const errors = {message: ''};
 const { data, error } = await supabase.auth.getSession();
@@ -21,6 +24,7 @@ if (Astro.request.method === 'POST') {
     if (error) {
       errors.message = error.message;
     } else {
+      phClient.identify(email);
       return Astro.redirect('/rsvp')
     }
   }
