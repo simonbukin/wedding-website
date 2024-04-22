@@ -18,7 +18,7 @@ import NavBar from "../components/NavBar.astro";
         >
           SIMON
           <img
-            class="h-6 w-6 lg:h-10 lg:w-10 relative lg:-top-2 -top-1"
+            class="h-8 w-8 md:h-10 md:w-10 relative md:-top-2 -top-1"
             src="/heart.svg"
             alt="Heart"
           />
@@ -32,20 +32,25 @@ import NavBar from "../components/NavBar.astro";
         <span id="daysUntilWedding"></span> day<span id="dayPlural"></span> to go!
       </h2>
       <script>
-        const weddingDate = new Date(2024, 7, 3);
-        const currentDate = new Date();
-        const timeDifference = weddingDate.getTime() - currentDate.getTime();
-        const daysUntilWedding = Math.ceil(timeDifference / (1000 * 3600 * 24));
-        const daysUntilWeddingElement =
-          document.getElementById("daysUntilWedding");
-        if (daysUntilWeddingElement !== null) {
-          daysUntilWeddingElement.textContent = `${daysUntilWedding}`;
-        }
-        `${daysUntilWedding}`;
-        const dayPluralElement = document.getElementById("dayPlural");
-        if (dayPluralElement !== null) {
-          dayPluralElement.textContent = daysUntilWedding === 1 ? "" : "s";
-        }
+        document.addEventListener("DOMContentLoaded", () => {
+          const weddingDate = new Date(2024, 7, 3).getTime();
+          const currentDate = new Date().getTime();
+          const timeDifference = weddingDate - currentDate;
+          const daysUntilWedding = Math.ceil(
+            timeDifference / (1000 * 60 * 60 * 24)
+          );
+
+          const daysUntilWeddingElement =
+            document.getElementById("daysUntilWedding");
+          if (daysUntilWeddingElement) {
+            daysUntilWeddingElement.textContent = daysUntilWedding.toString();
+          }
+
+          const dayPluralElement = document.getElementById("dayPlural");
+          if (dayPluralElement) {
+            dayPluralElement.textContent = daysUntilWedding === 1 ? "" : "s";
+          }
+        });
       </script>
     </section>
 
