@@ -1,67 +1,93 @@
 ---
-import { differenceInCalendarDays } from "date-fns";
-import Carousel from '../components/Carousel'
-import Layout from '../layouts/Layout.astro';
+import Carousel from "../components/Carousel";
+import Layout from "../layouts/Layout.astro";
 import NavBar from "../components/NavBar.astro";
-
-const daysUntilWedding = differenceInCalendarDays(
-	new Date(2024, 8, 3),
-	new Date()
-);
 ---
 
 <Layout title="Simon & Kayla">
-	<main class="mx-auto flex min-h-screen w-full flex-col text-slate-700 sm:max-w-screen-sm md:max-w-screen-md">
-		<section class="flex flex-col items-center justify-center sm:my-6 sm:flex-grow">
-			<div class="mb-4 flex w-full flex-row items-center justify-around">
-				<h1 transition:animate="slide" class="relative top-1 my-2 text-center text-4xl font-bold sm:mb-4 sm:text-6xl">
-					SIMON{" "}
-					<span class="relative bottom-1 sm:bottom-1 sm:text-7xl">+</span>{" "}
-					KAYLA
-				</h1>
-			</div>
-			<h2 class="flex flex-row gap-4 text-2xl sm:text-2xl">
-				August 3rd, 2024 • Camarillo, CA
-			</h2>
-			<h2 class="mb-4 text-2xl sm:text-2xl">
-				{daysUntilWedding} day{daysUntilWedding === 1 ? "" : "s"} to go!
-			</h2>
-		</section>
+  <main
+    class="mx-auto flex min-h-screen w-full flex-col text-slate-700 sm:max-w-screen-sm md:max-w-screen-md"
+  >
+    <section
+      class="flex flex-col items-center justify-center sm:my-6 sm:flex-grow"
+    >
+      <div class="mb-4 flex w-full flex-row items-center justify-around">
+        <h1
+          transition:animate="slide"
+          class="relative flex flex-row items-center gap-3 my-2 text-center text-4xl font-bold sm:mb-4 sm:text-6xl"
+        >
+          SIMON
+          <img
+            class="h-6 w-6 lg:h-10 lg:w-10 relative lg:-top-2 -top-1"
+            src="/heart.svg"
+            alt="Heart"
+          />
+          KAYLA
+        </h1>
+      </div>
+      <h2 class="flex flex-row gap-4 text-2xl sm:text-2xl">
+        August 3rd, 2024 • Camarillo, CA
+      </h2>
+      <h2 class="mb-4 text-2xl sm:text-2xl">
+        <span id="daysUntilWedding"></span> day<span id="dayPlural"></span> to go!
+      </h2>
+      <script>
+        const weddingDate = new Date(2024, 7, 3);
+        const currentDate = new Date();
+        const timeDifference = weddingDate.getTime() - currentDate.getTime();
+        const daysUntilWedding = Math.ceil(timeDifference / (1000 * 3600 * 24));
+        const daysUntilWeddingElement =
+          document.getElementById("daysUntilWedding");
+        if (daysUntilWeddingElement !== null) {
+          daysUntilWeddingElement.textContent = `${daysUntilWedding}`;
+        }
+        `${daysUntilWedding}`;
+        const dayPluralElement = document.getElementById("dayPlural");
+        if (dayPluralElement !== null) {
+          dayPluralElement.textContent = daysUntilWedding === 1 ? "" : "s";
+        }
+      </script>
+    </section>
 
-		<section class="flex flex-col items-center justify-center">
-			<nav class="order-last flex h-full w-full flex-row justify-center sm:order-first sm:mb-2 sm:mt-6">
-				<NavBar />
-			</nav>
-			<div class="h-[283px] sm:h-[513px] w-full">
-				<Carousel client:only="solidjs" />
-			</div>
-		</section>
+    <section class="flex flex-col items-center justify-center">
+      <nav
+        class="order-last flex h-full w-full flex-row justify-center sm:order-first sm:mb-2 sm:mt-6"
+      >
+        <NavBar />
+      </nav>
+      <div class="h-[283px] sm:h-[513px] w-full">
+        <Carousel client:only="solidjs" />
+      </div>
+    </section>
 
-		<footer class="mb-4 mt-8 flex flex-col items-center justify-around text-slate-500 sm:my-8 sm:flex-row">
-			<section class="flex flex-row">
-				<p>Made with 💜 
-					<a
-					  class="text-simonsCoolColor"
-						href="https://www.simonbukin.com"
-						target="_blank"
-					>
-						Simon Bukin
-					</a>
-				</p>
-			</section>
+    <footer
+      class="mb-4 mt-8 flex flex-col items-center justify-around text-slate-500 sm:my-8 sm:flex-row"
+    >
+      <section class="flex flex-row">
+        <p>
+          Made with 💜
+          <a
+            class="text-simonsCoolColor"
+            href="https://www.simonbukin.com"
+            target="_blank"
+          >
+            Simon Bukin
+          </a>
+        </p>
+      </section>
 
-			<section class="mt-2 sm:m-0">
-				<p>
-					Photos by{" "}
-					<a
-						class="text-simonsCoolColor"
-						href="https://www.instagram.com/3256austin/"
-						target="_blank"
-					>
-						Austin Fisher
-					</a>
-				</p>
-			</section>
-		</footer>
-	</main>
+      <section class="mt-2 sm:m-0">
+        <p>
+          Photos by{" "}
+          <a
+            class="text-simonsCoolColor"
+            href="https://www.instagram.com/3256austin/"
+            target="_blank"
+          >
+            Austin Fisher
+          </a>
+        </p>
+      </section>
+    </footer>
+  </main>
 </Layout>

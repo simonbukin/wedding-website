@@ -1,13 +1,15 @@
 ---
 import { supabase } from "../../lib/supabase";
-import PostHogClient from '../../posthog';
-
-const phClient = PostHogClient();
 if (Astro.request.method !== 'GET') {
-  return;
+  return new Response(null, { status: 405 });
 }
 
 await supabase.auth.signOut();
-phClient.reset()
-return Astro.redirect('/')
+return new Response(null, {
+  status: 302,
+  headers: {
+    'Location': '/',
+    'Cache-Control': 'no-cache',
+  }
+});
 ---

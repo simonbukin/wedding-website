@@ -32,7 +32,7 @@ export default function Carousel() {
   );
 
   return (
-    <div class="embla rounded-xl" ref={emblaRef}>
+    <div class="embla lg:rounded-xl" ref={emblaRef}>
       <div class="embla__container">
         {imageData.map((image) => {
           return (

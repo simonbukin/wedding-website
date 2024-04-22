@@ -1,47 +1,73 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { supabase } from '../lib/supabase';
-import PostHogClient from '../posthog';
+import Layout from "../layouts/Layout.astro";
+import { supabase } from "../lib/supabase";
+import PostHogClient from "../posthog";
 
 const phClient = PostHogClient();
 
-const errors = {message: ''};
+const errors = { message: "" };
 const { data, error } = await supabase.auth.getSession();
 const session = data.session;
 if (error) {
   console.error(error);
 }
 
-if (Astro.request.method === 'POST') {
+if (Astro.request.method === "POST") {
   const form = await Astro.request.formData();
-  const email = form.get('email')?.toString().trim();
-  const password = form.get('password')?.toString().trim();
+  const email = form.get("email")?.toString().trim();
+  const password = form.get("password")?.toString().trim();
+
+  const emailWithRsvping = email + "@rsvp.ing";
 
   if (!email || !password) {
-    errors.message = 'invalid email or password'
+    errors.message = "invalid email or password";
   } else {
-    const { error } = await supabase.auth.signInWithPassword({email, password});
+    const { error } = await supabase.auth.signInWithPassword({
+      email: emailWithRsvping,
+      password,
+    });
     if (error) {
       errors.message = error.message;
     } else {
-      phClient.identify(email);
-      return Astro.redirect('/rsvp')
+      phClient.identify(emailWithRsvping);
+      return Astro.redirect("/rsvp");
     }
   }
 }
 
-if (Astro.request.method === 'GET' && session) {
-  return Astro.redirect('/')  
+if (Astro.request.method === "GET" && session) {
+  return Astro.redirect("/");
 }
 ---
 
 <Layout title="Login">
   <div class="text-xl min-h-screen grid place-content-center">
-    <form class="flex flex-col gap-2 *:px-3 *:py-2" method="POST">
-      <input type="text" name="email" placeholder="Email">
-      <input type="password" name="password" placeholder="Password">
-      {errors.message && <p>{errors.message}</p>}
-      <input type="submit" value="Login">
+    <form
+      method="POST"
+      class="flex flex-col bg-kaylasCoolColor/80 gap-4 rounded-md border border-slate-600 p-4"
+    >
+      <input
+        class="rounded-md p-2 text-slate-900"
+        type="text"
+        name="email"
+        placeholder="Username"
+      />
+      <input
+        class="rounded-md p-2 text-slate-900"
+        type="password"
+        name="password"
+        placeholder="Password"
+      />
+      {
+        errors.message && (
+          <p class="text-red-500 text-lg font-bold">{errors.message}</p>
+        )
+      }
+      <input
+        type="submit"
+        value="Login"
+        class="text-white rounded-md border border-slate-700 bg-simonsCoolColor py-4 text-xl font-bold hover:bg-simonsCoolColor/50"
+      />
     </form>
   </div>
 </Layout>

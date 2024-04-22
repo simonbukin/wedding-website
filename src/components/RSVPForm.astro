@@ -53,8 +53,8 @@ const isAfterDates = new Date() > new Date('2024-07-01')
           <option value="" disabled>
             Select your entree
           </option>
-          {Object.keys(FoodChoice).map((key) => {
-            return <option selected={group?.plusOne?.foodChoice === (key as FoodChoice)}>{key}</option>;
+          {Object.entries(FoodChoice).map(([key, value]) => {
+            return <option value={key} selected={group?.plusOne?.foodChoice === key}>{value === 'Kids Meal' ? 'Kids (11 years or younger) Meal' : value}</option>;
           })}
         </select>
 

@@ -77,12 +77,21 @@ const loveWords = [
 ];
 
 function generatePassword() {
-  const randomWords = new Set();
-  while (randomWords.size < 3) {
-    const randomIndex = Math.floor(Math.random() * loveWords.length);
-    randomWords.add(loveWords[randomIndex]);
+  let password = "";
+  while (password.length < 2 || password.length > 17) {
+    const randomWords = new Set();
+    while (randomWords.size < 3) {
+      const randomIndex = Math.floor(Math.random() * loveWords.length);
+      randomWords.add(loveWords[randomIndex]);
+      const tempPassword = Array.from(randomWords).join("-");
+      if (tempPassword.length <= 17) {
+        password = tempPassword;
+      } else {
+        randomWords.clear();
+      }
+    }
   }
-  return Array.from(randomWords).join("-");
+  return password;
 }
 
 async function clearAllAccounts() {
