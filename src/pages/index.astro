@@ -2,6 +2,7 @@
 import Carousel from "../components/Carousel";
 import Layout from "../layouts/Layout.astro";
 import NavBar from "../components/NavBar.astro";
+import Countdown from "../components/Countdown";
 ---
 
 <Layout title="Simon & Kayla">
@@ -29,29 +30,8 @@ import NavBar from "../components/NavBar.astro";
         August 3rd, 2024 • Camarillo, CA
       </h2>
       <h2 class="mb-4 text-2xl sm:text-2xl">
-        <span id="daysUntilWedding"></span> day<span id="dayPlural"></span> to go!
+        <Countdown targetDate={new Date(2024, 7, 3)} client:only="solidjs" />
       </h2>
-      <script>
-        document.addEventListener("DOMContentLoaded", () => {
-          const weddingDate = new Date(2024, 7, 3).getTime();
-          const currentDate = new Date().getTime();
-          const timeDifference = weddingDate - currentDate;
-          const daysUntilWedding = Math.ceil(
-            timeDifference / (1000 * 60 * 60 * 24)
-          );
-
-          const daysUntilWeddingElement =
-            document.getElementById("daysUntilWedding");
-          if (daysUntilWeddingElement) {
-            daysUntilWeddingElement.textContent = daysUntilWedding.toString();
-          }
-
-          const dayPluralElement = document.getElementById("dayPlural");
-          if (dayPluralElement) {
-            dayPluralElement.textContent = daysUntilWedding === 1 ? "" : "s";
-          }
-        });
-      </script>
     </section>
 
     <section class="flex flex-col items-center justify-center">

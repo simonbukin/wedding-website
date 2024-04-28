@@ -1,146 +1,124 @@
 ---
+import FoodPreferenceBadge from "../components/FoodPreferenceBadge.astro";
 import HorizontalBar from "../components/HorizontalBar.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Menu">
-    <main
-        class="bg-kaylasCoolColor/80 mx-auto flex min-h-screen w-full flex-col px-4 text-slate-700 sm:max-w-screen-sm md:max-w-screen-md"
-    >
-        <div class="mt-5 flex flex-row items-center justify-center gap-3">
-            <a
-                href="/"
-                class="relative -top-[4px] grid place-content-center"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="28"
-                    height="28"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-home"
-                    ><path
-                        d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-                    ></path><polyline points="9 22 9 12 15 12 15 22"
-                    ></polyline></svg
-                >
-            </a>
-            <h1 class="text-3xl">Menu</h1>
-            <ul
-                class="full flex w-full flex-row items-center justify-around text-xl"
-            >
-                <li><a href="#vegetarian">Vegetarian</a></li>
-                <li><a href="#vegan">Vegan</a></li>
-                <li><a href="#gluten-free">Gluten Free</a></li>
-                <li><a href="#kids">Kids</a></li>
-            </ul>
+  <main
+    class="bg-kaylasCoolColor/80 mx-auto flex min-h-screen w-full flex-col px-4 text-slate-700 sm:max-w-screen-sm md:max-w-screen-md"
+  >
+    <div class="mr-auto mt-5 flex flex-row justify-center items-baseline gap-3">
+      <a href="/" class="relative grid place-content-center">
+        <img class="h-5 w-5 md:h-7 md:w-7" src="/heart.svg" alt="Heart" />
+      </a>
+      <h1 class="text-4xl">Menu</h1>
+    </div>
+
+    <HorizontalBar />
+
+    <h1 class="ml-auto mr-auto mt-4 text-xl font-bold">
+      Please specify all food-related allergies or preferences when you RSVP!
+    </h1>
+
+    <div class="mt-4 flex flex-row justify-around">
+      <div class="flex items-center gap-2">
+        <FoodPreferenceBadge label="GF" /> Gluten Free
+      </div>
+      <div class="flex items-center gap-2">
+        <FoodPreferenceBadge label="NF" /> Nut Free
+      </div>
+      <div class="flex items-center gap-2">
+        <FoodPreferenceBadge label="V" /> Vegetarian
+      </div>
+      <div class="flex items-center gap-2">
+        <FoodPreferenceBadge label="VG" /> Vegan
+      </div>
+      <div class="flex items-center gap-2">
+        <FoodPreferenceBadge label="DF" /> Dairy Free
+      </div>
+    </div>
+
+    <HorizontalBar />
+
+    <div class="flex flex-col gap-2">
+      <div class="flex flex-row justify-between w-full">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-xl font-bold">Harvest Apple Salad</h1>
+          <p>
+            Dried cranberries, smoked gouda, sugared pecans, mixed greens, cider
+            vinaigrette.
+          </p>
         </div>
-        <HorizontalBar />
-
-        <div
-            class="grid auto-rows-max grid-cols-2 place-content-start gap-2"
-        >
-            <h1 class="flex-shrink-0">Harvest Apple Salad</h1>
-            <p>
-                Dried cranberries, smoked gouda, sugared pecans, mixed
-                greens, cider vinaigrette.
-            </p>
-
-            <div
-                class="col-span-2 my-4 h-[3px] w-full border border-slate-700"
-            >
-            </div>
-
-            <h1>Zinfandel Braised Short Ribs</h1>
-            <p>Slow braised, rich zinfandel jus, gremolata.</p>
-
-            <h2>Black Truffle Mashed Potatoes</h2>
-            <p>Black truffle, mashed potatoes.</p>
-
-            <h2>Broccolini</h2>
-            <p>Marcona almond butter.</p>
-
-            <div
-                class="col-span-2 my-4 h-[3px] w-full border border-slate-700"
-            >
-            </div>
-
-            <h1>Vintners Chicken</h1>
-            <p>
-                Herb marinated chicken breast, fire-roasted tomato fig
-                sauce.
-            </p>
-
-            <h2>Mashed Potatoes</h2>
-            <p>Crème fraiche, snipped chives.</p>
-            <h2>Asparagus Spears</h2>
-            <p>Lemon zest butter</p>
-
-            <div
-                class="col-span-2 my-4 h-[3px] w-full border border-slate-700"
-            >
-            </div>
-
-            <h1>Quinoa Stuffed Orange Peppers</h1>
-            <p>Zucchini, basil, haricot vert, tomato coulis.</p>
-            <h2>Tri Color Pee Wee Potatoes</h2>
-            <p>Chervil butter</p>
-            <h2>Tri Color Carrots</h2>
-            <p>Chervil butter</p>
+        <div>
+          <FoodPreferenceBadge label="V" />
+          <FoodPreferenceBadge label="GF" />
         </div>
+      </div>
 
-        <!-- <div class="flex flex-row gap-4">
-            <h1 class="flex-shrink-0">Harvest Apple Salad</h1>
-            <p>
-                Dried cranberries, smoked gouda, sugared pecans, mixed
-                greens, cider vinaigrette.
-            </p>
+      <div class="col-span-2 my-4 h-[3px] w-full border border-slate-700"></div>
+
+      <div class="flex flex-row justify-between w-full">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-xl font-bold">Zinfandel Braised Short Ribs</h1>
+          <p>Slow braised, rich zinfandel jus, gremolata.</p>
         </div>
+        <div>
+          <FoodPreferenceBadge label="NF" />
+          <FoodPreferenceBadge label="DF" />
+        </div>
+      </div>
 
-        <HorizontalBar />
-        <h1>Zinfandel Braised Short Ribs</h1>
-        <p>Slow braised, rich zinfandel jus, gremolata.</p>
-        <h2>Black Truffle Mashed Potatoes</h2>
-        <h2>Broccolini</h2>
-        <div class="my-4 h-[3px] w-full border border-slate-700"></div>
-        <h1>Vintners Chicken</h1>
-        <p>
-            Herb marinated chicken breast, fire-roasted tomato fig sauce.
+      <div class="flex flex-row justify-between w-full">
+        <p class="text-lg font-normal">
+          Sides: Black Truffle Mashed Potatoes & Broccolini
         </p>
-        <h2>Mashed Potatoes</h2>
-        <h2>Asparagus Spears</h2>
-        <div class="my-4 h-[3px] w-full border border-slate-700"></div>
-        <h1>Quinoa Stuffed Orange Peppers</h1>
-        <p>Zucchini, basil, haricot vert, tomato coulis.</p>
-        <h2>Tri Color Pee Wee Potatoes</h2>
-        <h2>Tri Color Carrots</h2> -->
-    </main>
+      </div>
+
+      <div class="col-span-2 my-4 h-[3px] w-full border border-slate-700"></div>
+
+      <div class="flex flex-row justify-between w-full">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-xl font-bold">Vintners Chicken</h1>
+          <p>Herb marinated chicken breast, fire-roasted tomato fig sauce.</p>
+        </div>
+        <div>
+          <FoodPreferenceBadge label="NF" />
+          <FoodPreferenceBadge label="DF" />
+          <FoodPreferenceBadge label="GF" />
+        </div>
+      </div>
+
+      <div class="flex flex-row justify-between w-full">
+        <p class="text-lg font-normal">
+          Sides: Mashed Potatoes & Asparagus Spears
+        </p>
+      </div>
+
+      <div class="col-span-2 my-4 h-[3px] w-full border border-slate-700"></div>
+
+      <div class="flex flex-row justify-between w-full">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-xl font-bold">Quinoa Stuffed Orange Peppers</h1>
+          <p>Zucchini, basil, haricot vert, tomato coulis.</p>
+        </div>
+        <div>
+          <FoodPreferenceBadge label="V" />
+          <FoodPreferenceBadge label="VG" />
+          <FoodPreferenceBadge label="NF" />
+          <FoodPreferenceBadge label="GF" />
+          <FoodPreferenceBadge label="DF" />
+        </div>
+      </div>
+
+      <div class="flex flex-row justify-between w-full">
+        <p class="text-lg font-normal">
+          Sides: Tri Color Pee Wee Potatoes & Tri Color Carrots
+        </p>
+      </div>
+      <div class="col-span-2 my-4 h-[3px] w-full border border-slate-700"></div>
+    </div>
+  </main>
 </Layout>
 
-<style>
-    html {
-        @apply text-slate-700;
-    }
-
-    h1 {
-        @apply text-xl;
-        @apply font-semibold;
-        @apply text-slate-700;
-    }
-
-    h2 {
-        @apply text-lg;
-        @apply font-normal;
-        @apply text-slate-600;
-    }
-
-    p {
-        @apply text-base;
-        @apply font-normal;
-        @apply text-slate-500;
-    }
-</style>
+<style></style>

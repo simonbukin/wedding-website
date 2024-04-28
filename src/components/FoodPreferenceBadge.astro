@@ -1,0 +1,13 @@
+---
+interface FoodPreferenceBadgeProps {
+  label: string;
+}
+
+const { label } = Astro.props as FoodPreferenceBadgeProps;
+---
+
+<div
+  class={`text-gray border border-gray-700 px-2 pt-1 rounded-lg inline-block w-fit h-fit`}
+>
+  {label}
+</div>

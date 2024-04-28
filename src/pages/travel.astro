@@ -1,31 +1,35 @@
 ---
-import Layout from "../layouts/Layout.astro"
-import EmbedMap from '../components/EmbedMap.astro'
-import HorizontalBar from '../components/HorizontalBar.astro'
+import Layout from "../layouts/Layout.astro";
+import EmbedMap from "../components/EmbedMap.astro";
+import HorizontalBar from "../components/HorizontalBar.astro";
 ---
+
 <Layout title="Travel">
-  <main class="px-4 bg-kaylasCoolColor/80 mx-auto flex min-h-screen w-full flex-col text-slate-700 sm:max-w-screen-sm md:max-w-screen-md">
-    <div class="mt-5 flex flex-row items-center justify-center gap-3">
-      <a href="/" class="relative -top-[4px] grid place-content-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+  <main
+    class="px-4 bg-kaylasCoolColor/80 mx-auto flex min-h-screen w-full flex-col text-slate-700 sm:max-w-screen-sm md:max-w-screen-md"
+  >
+    <div class="mr-auto mt-5 flex flex-row justify-center items-baseline gap-3">
+      <a href="/" class="relative grid place-content-center">
+        <img class="h-5 w-5 md:h-7 md:w-7" src="/heart.svg" alt="Heart" />
       </a>
-      <h1 class="text-3xl ">Travel</h1>
-      <ul class="text-xl full flex flex-row w-full items-center justify-around">
-        <li><a href="#venue">Venue</a></li>
-        <li><a href="#airports">Airports</a></li>
-        <li><a href="#hotels">Hotels</a></li>
-      </ul>
+      <h1 class="text-4xl">Travel</h1>
     </div>
-    
-    <div class="my-4 h-[3px] w-full border-slate-700 border" />
-    <h1 id="venue" class="my-4 text-2xl text-center">Maravilla Gardens - Camarillo, CA</h1>
+
+    <div class="my-4 h-[3px] w-full border-slate-700 border"></div>
+    <h1 id="venue" class="my-4 text-2xl text-center">
+      Maravilla Gardens - Camarillo, CA
+    </h1>
     <div class="relative w-full h-[400px] border-2 border-kaylasCoolColor">
       <EmbedMap />
     </div>
 
     <HorizontalBar />
 
-    <h1 id="airports" class="my-4 text-2xl">Airports <span class="text-lg">(and approximate driving time to venue)</span></h1>
+    <h1 id="airports" class="my-4 text-2xl">
+      Airports <span class="text-lg"
+        >(and approximate driving time to venue)</span
+      >
+    </h1>
     <ul>
       <li>Hollywood Burbank Airport (BUR) - 45 minutes</li>
       <li>Los Angeles International Airport (LAX) - 1 hour</li>
@@ -34,12 +38,39 @@ import HorizontalBar from '../components/HorizontalBar.astro'
 
     <HorizontalBar />
 
-    <h1 id="hotels" class="my-4 text-2xl">Hotels <span class="text-lg">(and approximate driving time to venue)</span></h1>
+    <h1 id="hotels" class="my-4 text-2xl">
+      Hotels <span class="text-lg">(and approximate driving time to venue)</span
+      >
+    </h1>
     <ul class="mb-32">
-      <li><a class="hover:underline" href="https://www.marriott.com/en-us/hotels/laxwc-warner-center-marriott-woodland-hills/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0">Warner Center Marriott Woodland Hills</a> - 30 minutes </li>
-      <li><a class="hover:underline" href="https://www.marriott.com/en-us/hotels/oxrtc-courtyard-thousand-oaks-agoura-hills/overview/">Courtyard Thousand Oaks Agoura Hills</a> - 15 minutes </li>
-      <li><a class="hover:underline" href="https://www.bestwestern.com/en_US/book/hotel-rooms.05662.html?iata=00171880&ssob=BLBWI0004G&cid=BLBWI0004G:google:gmb:05662">Best Western Posada Royale Hotel and Suites</a> - 20 minutes </li>
-      <li><a class="hover:underline" href="https://www.sonesta.com/sonesta-select/ca/camarillo/sonesta-select-camarillo">Sonesta Select Camarillo</a> - 10 minutes </li>
-    </ul> 
+      <li>
+        <a
+          class="hover:underline"
+          href="https://www.marriott.com/en-us/hotels/laxwc-warner-center-marriott-woodland-hills/overview/?scid=f2ae0541-1279-4f24-b197-a979c79310b0"
+          >Warner Center Marriott Woodland Hills</a
+        > - 30 minutes
+      </li>
+      <li>
+        <a
+          class="hover:underline"
+          href="https://www.marriott.com/en-us/hotels/oxrtc-courtyard-thousand-oaks-agoura-hills/overview/"
+          >Courtyard Thousand Oaks Agoura Hills</a
+        > - 15 minutes
+      </li>
+      <li>
+        <a
+          class="hover:underline"
+          href="https://www.bestwestern.com/en_US/book/hotel-rooms.05662.html?iata=00171880&ssob=BLBWI0004G&cid=BLBWI0004G:google:gmb:05662"
+          >Best Western Posada Royale Hotel and Suites</a
+        > - 20 minutes
+      </li>
+      <li>
+        <a
+          class="hover:underline"
+          href="https://www.sonesta.com/sonesta-select/ca/camarillo/sonesta-select-camarillo"
+          >Sonesta Select Camarillo</a
+        > - 10 minutes
+      </li>
+    </ul>
   </main>
 </Layout>

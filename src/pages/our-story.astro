@@ -1,41 +1,174 @@
 ---
-import Layout from "../layouts/Layout.astro"
-import HorizontalBar from "../components/HorizontalBar.astro"
+import Layout from "../layouts/Layout.astro";
+import HorizontalBar from "../components/HorizontalBar.astro";
+import OurStoryCarousel from "../components/OurStoryCarousel";
+
+const imageData = [
+  {
+    src: "https://res.cloudinary.com/dg0xe8vgc/image/upload/v1714259278/first_po45cv.jpg",
+    alt: "Kayla and Simon",
+    caption: "Our first photo as a couple. Winter Semi-Formal 2017",
+  },
+  {
+    src: "https://res.cloudinary.com/dg0xe8vgc/image/upload/v1714259272/second_u9gxps.jpg",
+    alt: "Simon and Kayla sitting at a dinner table",
+    caption:
+      "We don't remember taking this photo. Emily and LJ's Rehearsal Dinner 2017",
+  },
+  {
+    src: "https://res.cloudinary.com/dg0xe8vgc/image/upload/v1714259275/disney_bvwjsw.jpg",
+    alt: "Simon and Kayla standing in front of a Ferris wheel",
+    caption: "Disney's California Adventure 2018",
+  },
+  {
+    src: "https://res.cloudinary.com/dg0xe8vgc/image/upload/v1714259278/grad_nlolva.jpg",
+
+    alt: "Kayla in graduation gear with Simon",
+    caption: "Kayla's BS 2019",
+  },
+  {
+    src: "https://res.cloudinary.com/dg0xe8vgc/image/upload/v1714259273/hehe_bwbgut.jpg",
+    alt: "Kayla and Simon cookin",
+    caption: "Quarantining in Seattle 2020",
+  },
+  {
+    src: "https://res.cloudinary.com/dg0xe8vgc/image/upload/v1714259272/haha_wz9eay.jpg",
+    alt: "Kayla and Simon being cute",
+    caption: "Simon visiting Kayla post lockdown 2021",
+  },
+  {
+    src: "https://res.cloudinary.com/dg0xe8vgc/image/upload/v1714259639/family_w52vla.jpg",
+    alt: "Kayla and Simon posing for a photo",
+    caption: "Schimke Family Photos 2022",
+  },
+  {
+    src: "https://res.cloudinary.com/dg0xe8vgc/image/upload/v1714259274/kiss_qxlpj4.jpg",
+    alt: "Kayla and Simon kissing",
+    caption: "She said 'yeah' 2023",
+  },
+];
 ---
+
 <Layout title="Our Story">
-  <main class="max-w-6xl px-4 bg-kaylasCoolColor/80 mx-auto flex min-h-screen w-full flex-col text-slate-700">
-    <div class="mt-5 flex flex-row items-center justify-center gap-3">
-      <a href="/" class="relative -top-[4px] grid place-content-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+  <main
+    class="bg-kaylasCoolColor/80 mx-auto flex min-h-screen w-full flex-col px-4 text-slate-700 sm:max-w-screen-sm md:max-w-screen-md"
+  >
+    <div class="mr-auto mt-5 flex flex-row justify-center items-baseline gap-3">
+      <a href="/" class="relative grid place-content-center">
+        <img class="h-5 w-5 md:h-7 md:w-7" src="/heart.svg" alt="Heart" />
       </a>
-      <h1 class="text-3xl ">Our Story</h1>
+      <h1 class="text-4xl">Our Story</h1>
     </div>
     <HorizontalBar />
-    <h1 class="text-3xl">TL;DR</h1>
-    <HorizontalBar />
+    <h1 class="text-2xl mb-2 font-semibold">TL;DR</h1>
     <div class="flex flex-row gap-4">
-        <div class="flex flex-col gap-8">
-          <img class="aspect-square" src="https://placehold.co/400x400" />
-          <img class="aspect-square" src="https://placehold.co/400x400" />
-          <img class="aspect-square" src="https://placehold.co/400x400" />
-          <img class="aspect-square" src="https://placehold.co/400x400" />
-          <img class="aspect-square" src="https://placehold.co/400x400" />
-        </div>
-
-        <div>
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus illum dolores distinctio nulla quis! Ea fuga dolorem provident dolor. Porro ut sed id nesciunt incidunt quisquam eveniet laboriosam facere delectus?</p>
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus illum dolores distinctio nulla quis! Ea fuga dolorem provident dolor. Porro ut sed id nesciunt incidunt quisquam eveniet laboriosam facere delectus?</p>
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus illum dolores distinctio nulla quis! Ea fuga dolorem provident dolor. Porro ut sed id nesciunt incidunt quisquam eveniet laboriosam facere delectus?</p>
-        </div>
-
-        <div class="flex flex-col gap-8 mt-16">
-          <img class="aspect-square" src="https://placehold.co/400x400" />
-          <img class="aspect-square" src="https://placehold.co/400x400" />
-          <img class="aspect-square" src="https://placehold.co/400x400" />
-          <img class="aspect-square" src="https://placehold.co/400x400" />
-        </div>
+      <p class="text-xl text-pretty font-normal">
+        Simon agreed to help Kayla with a homework assignment which involved
+        them making notes on a piece of paper. A few weeks later, Kayla
+        demonstrated how to make a paper heart using the scrap paper from their
+        first meeting and, unbeknownst to her, Simon stashed it away. They
+        became programming partners for the rest of the class and met up weekly
+        for assignments. After weeks of hanging out and some mixed signals,
+        Simon asked Kayla, “is this a thing?” She responded, “I think it’s a
+        thing.” Six and a half years later, she said “yeah”.
+      </p>
     </div>
-    
-    
+    <HorizontalBar />
+    <div class="w-1/2 mt-8 ml-auto mr-auto">
+      <OurStoryCarousel imageData={imageData} client:only="solidjs" />
+    </div>
+    <div class="flex flex-col gap-4">
+      <HorizontalBar />
+      <h1 class="text-2xl font-semibold">He Stole Her Heart (Literally)</h1>
+      <p class="text-xl text-pretty font-normal">
+        Kayla was struggling with the first assignment in a computer science
+        class that she wasn’t even sure she should be taking but nonetheless was
+        pushing through. Her friend and original assignment partner had decided
+        to drop the class and change their major even before the assignment
+        deadline had been extended the first time. Now staring down the second
+        extension deadline and still no closer to solving the ridiculous bug
+        she’d run into, she decided to do the most sane thing, go to work.
+        Although working a shift for her college’s tech crew was a good
+        distraction, the topic of the impending deadline and doomed assignment
+        came up in a conversation with a colleague. He was somewhat familiar
+        with the assignment, although not in the class, because a friend of his
+        had been struggling with it too and had been vocal about how the
+        solution was a disgusting chunk of code. The colleague offered to give
+        Kayla’s number to his friend if she wanted the help. Having already
+        humbled herself in a few ways for this assignment, she figured that
+        soliciting help from a stranger couldn’t hurt and agreed.
+      </p>
+      <p class="text-xl text-pretty font-normal">
+        Later that evening, Simon’s friend casually mentioned that he had a
+        colleague who was also working on the assignment that he’d finished
+        earlier (albeit in a less than ideal way). Simon offered to help,
+        thinking that this friend may have been stuck on something simple. The
+        wall of text he received after texting Kayla for the first time
+        convinced him otherwise, and they agreed to meet and work on the problem
+        together. All was well, except for one little detail: Simon had
+        forgotten to tell Kayla anything about himself, not even his name. This
+        led to him walking into their meeting place (The Fireside Lounge),
+        looking around for a few seconds, realizing his mistake, and then
+        sitting somewhere and contemplating his options. Fortunately, Kayla
+        spotted this, and put two and two together.
+      </p>
+      <p class="text-xl text-pretty font-normal">
+        Kayla tried to explain the issues she was having but Simon was having a
+        hard time wrapping his head around her convoluted solution. He very
+        calmly explained that he could walk her through a more straightforward
+        solution before the impending deadline. Kayla pulled out a piece of
+        paper and they began jotting down notes and getting the assignment done.
+        Just as Simon promised, he was able to help her through the assignment
+        before the deadline and she even showed him a trick that would’ve made
+        his solution less lengthy. Overconfident in the capabilities of the code
+        they wrote, Simon inputted a large example and hit run, then immediately
+        realized that it was gonna take awhile for it to compute. He looked at
+        Kayla and said, “So what’s your life story?” Realizing that they worked
+        well together, they agreed to become programming partners for the rest
+        of the quarter.
+      </p>
+      <p class="text-xl text-pretty font-normal">
+        A few weeks later, Valentine’s Day was approaching and Kayla was in the
+        Fireside Lounge with a couple of friends. One of them asked her if she
+        knew how to fold an origami heart and she offered to demonstrate for
+        them. She always carried scrap paper in her backpack and pulled out a
+        piece to turn into a heart. Some time later, Simon wandered into the
+        Fireside Lounge and joined Kayla and her friends. They hung out for a
+        bit before deciding to head to dinner and Kayla felt that the paper
+        heart could be left behind for someone else that wanted it. Simon
+        recognized that she had made the heart out of the paper they used the
+        first time they met and secreted it away. Kayla wouldn’t find out that
+        he had stolen her heart until a month later, a few weeks after they had
+        started dating.
+      </p>
+      <HorizontalBar />
+      <h1 class="text-2xl font-semibold">It’s a Thing</h1>
+      <p class="text-xl text-pretty font-normal">
+        Simon and Kayla met a few times a week to work on the assignments for
+        their computer science class and they quickly learned that being
+        together was easy and comfortable. Soon they were meeting up for lunch
+        or dinner at the dining halls around campus. Kayla even encouraged Simon
+        to get off campus and visit Santa Cruz locales.
+      </p>
+      <p class="text-xl text-pretty font-normal">
+        Their friend groups noticed that they were hanging out more and started
+        to pester them, cue the mixed signals. Confused about where they stood
+        but knowing that he had feelings for her, Simon asked, “Is this a
+        thing?” And Kayla responded, “I think it’s a thing.”
+      </p>
+      <HorizontalBar />
+      <h1 class="text-2xl font-semibold">She Said “Yeah”</h1>
+      <p class="text-xl text-pretty font-normal">
+        Even after putting him through a trial by fire three months into their
+        relationship by bringing him as her date to her sister’s wedding. Even
+        after he accepted a full time job which moved him to Seattle for two
+        years. Even after a pandemic where they were separated by circumstance
+        and distance. Even after commuting between Santa Cruz and San Francisco
+        for a year when he changed jobs. Even after all this and almost seven
+        years, Simon got down on one knee in the shadow of a giant sequoia and
+        asked Kayla to marry him and she said, “yeah.”
+      </p>
+      <HorizontalBar />
+    </div>
   </main>
 </Layout>

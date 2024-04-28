@@ -4,7 +4,7 @@
     <style>
       .cls-1 {
         fill: none;
-        stroke: #231f20;
+        stroke: #4a5568; /* Tailwind text-slate-700 */
         stroke-miterlimit: 10;
         stroke-width: 3px;
       }
