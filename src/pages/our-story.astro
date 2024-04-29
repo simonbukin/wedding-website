@@ -55,7 +55,11 @@ const imageData = [
   >
     <div class="mr-auto mt-5 flex flex-row justify-center items-baseline gap-3">
       <a href="/" class="relative grid place-content-center">
-        <img class="h-5 w-5 md:h-7 md:w-7" src="/heart.svg" alt="Heart" />
+        <img
+          class="h-8 w-8 sm:h-5 sm:w-5 md:h-7 md:w-7"
+          src="/heart.svg"
+          alt="Heart"
+        />
       </a>
       <h1 class="text-4xl">Our Story</h1>
     </div>
@@ -74,7 +78,7 @@ const imageData = [
       </p>
     </div>
     <HorizontalBar />
-    <div class="w-1/2 mt-8 ml-auto mr-auto">
+    <div class="w-full lg:w-1/2 mt-8 ml-auto mr-auto">
       <OurStoryCarousel imageData={imageData} client:only="solidjs" />
     </div>
     <div class="flex flex-col gap-4">

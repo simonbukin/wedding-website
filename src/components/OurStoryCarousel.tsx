@@ -35,7 +35,9 @@ export default function OurStoryCarousel({ imageData }: OurStoryCarouselProps) {
                 alt={image.alt}
                 class={`rounded-xl overflow-clip aspect-square`}
               />
-              {image.caption ? <p class="text-2xl">{image.caption}</p> : null}
+              {image.caption ? (
+                <p class="text-center text-xl text-pretty">{image.caption}</p>
+              ) : null}
             </div>
           );
         })}

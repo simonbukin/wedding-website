@@ -6,11 +6,15 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout title="Menu">
   <main
-    class="bg-kaylasCoolColor/80 mx-auto flex min-h-screen w-full flex-col px-4 text-slate-700 sm:max-w-screen-sm md:max-w-screen-md"
+    class="bg-kaylasCoolColor/80 mx-auto flex min-h-[calc(100vh+1rem)] w-full flex-col px-4 text-slate-700 sm:max-w-screen-sm md:max-w-screen-md"
   >
     <div class="mr-auto mt-5 flex flex-row justify-center items-baseline gap-3">
       <a href="/" class="relative grid place-content-center">
-        <img class="h-5 w-5 md:h-7 md:w-7" src="/heart.svg" alt="Heart" />
+        <img
+          class="h-8 w-8 sm:h-5 sm:w-5 md:h-7 md:w-7"
+          src="/heart.svg"
+          alt="Heart"
+        />
       </a>
       <h1 class="text-4xl">Menu</h1>
     </div>
@@ -21,7 +25,7 @@ import Layout from "../layouts/Layout.astro";
       Please specify all food-related allergies or preferences when you RSVP!
     </h1>
 
-    <div class="mt-4 flex flex-row justify-around">
+    <div class="mt-4 flex flex-row justify-start gap-2 flex-wrap">
       <div class="flex items-center gap-2">
         <FoodPreferenceBadge label="GF" /> Gluten Free
       </div>
@@ -50,7 +54,7 @@ import Layout from "../layouts/Layout.astro";
             vinaigrette.
           </p>
         </div>
-        <div>
+        <div class="flex flex-row gap-2">
           <FoodPreferenceBadge label="V" />
           <FoodPreferenceBadge label="GF" />
         </div>
@@ -63,7 +67,7 @@ import Layout from "../layouts/Layout.astro";
           <h1 class="text-xl font-bold">Zinfandel Braised Short Ribs</h1>
           <p>Slow braised, rich zinfandel jus, gremolata.</p>
         </div>
-        <div>
+        <div class="flex flex-row gap-2">
           <FoodPreferenceBadge label="NF" />
           <FoodPreferenceBadge label="DF" />
         </div>
@@ -82,7 +86,7 @@ import Layout from "../layouts/Layout.astro";
           <h1 class="text-xl font-bold">Vintners Chicken</h1>
           <p>Herb marinated chicken breast, fire-roasted tomato fig sauce.</p>
         </div>
-        <div>
+        <div class="flex flex-row gap-2">
           <FoodPreferenceBadge label="NF" />
           <FoodPreferenceBadge label="DF" />
           <FoodPreferenceBadge label="GF" />
@@ -102,7 +106,7 @@ import Layout from "../layouts/Layout.astro";
           <h1 class="text-xl font-bold">Quinoa Stuffed Orange Peppers</h1>
           <p>Zucchini, basil, haricot vert, tomato coulis.</p>
         </div>
-        <div>
+        <div class="flex flex-row flex-wrap gap-2 justify-end">
           <FoodPreferenceBadge label="V" />
           <FoodPreferenceBadge label="VG" />
           <FoodPreferenceBadge label="NF" />
