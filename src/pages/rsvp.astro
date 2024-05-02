@@ -12,7 +12,7 @@ const accessToken = cookies.get("sb-access-token");
 const refreshToken = cookies.get("sb-refresh-token");
 
 if (!accessToken || !refreshToken) {
-  return redirect("/login");
+  return Astro.redirect("/login");
 }
 
 const { data, error } = await supabase.auth.setSession({
@@ -28,7 +28,7 @@ if (error) {
     path: "/",
   });
 
-  return redirect("/login");
+  return Astro.redirect("/login");
 }
 
 let group: Group | undefined;
