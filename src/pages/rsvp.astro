@@ -6,7 +6,7 @@ import { FoodChoice, type Group } from "../lib/types";
 import PostHogClient from "../posthog";
 
 const phClient = PostHogClient();
-const { cookies, redirect } = Astro;
+const { cookies } = Astro;
 
 const accessToken = cookies.get("sb-access-token");
 const refreshToken = cookies.get("sb-refresh-token");

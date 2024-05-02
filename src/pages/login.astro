@@ -1,9 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
-const { cookies, redirect } = Astro;
+const { cookies } = Astro;
 
 const error = Astro.url.searchParams.get("error")! || "";
-console.log(error);
 
 const accessToken = cookies.get("sb-access-token");
 const refreshToken = cookies.get("sb-refresh-token");
