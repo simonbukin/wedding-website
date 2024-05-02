@@ -3,6 +3,7 @@
   "compilerOptions": {
     "module": "es2022",
     "jsx": "preserve",
+    "allowJs": true,
     "jsxImportSource": "solid-js"
   }
 }

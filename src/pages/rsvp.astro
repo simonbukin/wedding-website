@@ -1,37 +1,54 @@
 ---
-import RSVPForm from '../components/RSVPForm.astro';
-import Layout from '../layouts/Layout.astro';
-import { supabase } from '../lib/supabase';
-import { FoodChoice, type Group } from '../lib/types';
-import PostHogClient from '../posthog';
+import RSVPForm from "../components/RSVPForm.astro";
+import Layout from "../layouts/Layout.astro";
+import { supabase } from "../lib/supabase";
+import { FoodChoice, type Group } from "../lib/types";
+import PostHogClient from "../posthog";
 
 const phClient = PostHogClient();
+const { cookies, redirect } = Astro;
 
-const { data, error } = await supabase.auth.getSession();
-const session = data.session;
+const accessToken = cookies.get("sb-access-token");
+const refreshToken = cookies.get("sb-refresh-token");
 
-if (error) {
-  console.error(error)
+if (!accessToken || !refreshToken) {
+  return redirect("/login");
 }
 
-if (!session) {
-  return Astro.redirect('/login')
+const { data, error } = await supabase.auth.setSession({
+  refresh_token: refreshToken.value,
+  access_token: accessToken.value,
+});
+
+if (error) {
+  cookies.delete("sb-access-token", {
+    path: "/",
+  });
+  cookies.delete("sb-refresh-token", {
+    path: "/",
+  });
+
+  return redirect("/login");
 }
 
 let group: Group | undefined;
 let submitted: boolean = false;
-if (Astro.request.method === 'POST') {
-  const formData = await Astro.request.formData()
-  group = await getGroupFromDb(session.user?.id);
+if (Astro.request.method === "POST") {
+  const formData = await Astro.request.formData();
+  group = await getGroupFromDb(data?.user?.id || "");
 
-  phClient.capture('rsvp', {form: formData, group})
+  phClient.capture("rsvp", { form: formData, group });
 
   if (group) {
     // plus one
-    const firstName = formData.get('plusOneFirstName')?.toString();
-    const lastName = formData.get('plusOneLastName')?.toString();
-    const foodChoice = formData.get('plusOneFoodChoice')?.toString() as FoodChoice;
-    const dietaryPreference = formData.get('plusOneDietaryPreference')?.toString();
+    const firstName = formData.get("plusOneFirstName")?.toString();
+    const lastName = formData.get("plusOneLastName")?.toString();
+    const foodChoice = formData
+      .get("plusOneFoodChoice")
+      ?.toString() as FoodChoice;
+    const dietaryPreference = formData
+      .get("plusOneDietaryPreference")
+      ?.toString();
 
     if (firstName && lastName && foodChoice && dietaryPreference) {
       group.plusOne = {
@@ -39,24 +56,26 @@ if (Astro.request.method === 'POST') {
         firstName,
         lastName,
         foodChoice,
-        dietaryPreference
-      }
+        dietaryPreference,
+      };
     }
 
     const isFirstCharacterANumber = (str: string) => {
       if (str.length === 0) return false;
       // @ts-ignore
       return !isNaN(Number.parseInt(str[0]));
-    }
+    };
 
-    const numericKeys = Array.from(formData.keys()).filter(key => isFirstCharacterANumber(key));
+    const numericKeys = Array.from(formData.keys()).filter((key) =>
+      isFirstCharacterANumber(key)
+    );
     for (const key of numericKeys) {
-      let [index, property] = key.split('.');
-      let numericIndex = Number.parseInt(index || '');
-      const person = group.people[numericIndex]
+      let [index, property] = key.split(".");
+      let numericIndex = Number.parseInt(index || "");
+      const person = group.people[numericIndex];
       if (property && person) {
-        if (property === 'going') {
-          person['going'] = formData.get(key)?.toString() === 'going';
+        if (property === "going") {
+          person["going"] = formData.get(key)?.toString() === "going";
         } else {
           // @ts-ignore
           person[property] = formData.get(key)?.toString();
@@ -64,16 +83,22 @@ if (Astro.request.method === 'POST') {
       }
     }
 
-    const highChairs = parseInt(formData.get('highChairs')?.toString() || '0', 10);
+    const highChairs = parseInt(
+      formData.get("highChairs")?.toString() || "0",
+      10
+    );
     group.highChairs = highChairs;
 
-    const { error } = await supabase.from('groups').upsert({
-      id: session.user?.id, 
-      rsvp: JSON.stringify(group),
-    }).select()
+    const { error } = await supabase
+      .from("groups")
+      .upsert({
+        id: data?.user?.id,
+        rsvp: JSON.stringify(group),
+      })
+      .select();
 
     if (error) {
-      console.error(error)
+      console.error(error);
     } else {
       submitted = true;
     }
@@ -81,36 +106,51 @@ if (Astro.request.method === 'POST') {
 }
 
 if (Astro.request.method === "GET") {
-  group = await getGroupFromDb(session.user?.id)
+  group = await getGroupFromDb(data?.user?.id || "");
 }
 
 async function getGroupFromDb(id: string) {
-  const { data, error } = await supabase.from('groups').select().eq('id', id)
+  const { data, error } = await supabase.from("groups").select().eq("id", id);
   if (!error) {
     data as {
-      id: string,
-      rsvp: string,
-      created_at: string,
-    }[]
+      id: string;
+      rsvp: string;
+      created_at: string;
+    }[];
     return JSON.parse(data[0].rsvp) as Group;
   } else {
-    console.error(error)
+    console.error(error);
     return undefined;
   }
 }
 
 if (!group) {
-  return Astro.redirect('/login')
+  return Astro.redirect("/login");
 }
 ---
+
 <Layout title="RSVP">
-  <section x-data=`{ submitted: ${submitted}}` class="flex min-h-screen w-full flex-col p-4 text-slate-700 sm:mx-auto sm:max-w-screen-sm md:max-w-screen-md">
+  <section
+    x-data=`{ submitted: ${submitted}}`
+    class="flex min-h-screen w-full flex-col p-4 text-slate-700 sm:mx-auto sm:max-w-screen-sm md:max-w-screen-md"
+  >
     <h1 class="text-4xl text-bold my-2">RSVP</h1>
-    <div x-show="submitted" class="fixed flex top-0 left-0 w-full h-full bg-black/50 justify-center items-center z-10">
+    <div
+      x-show="submitted"
+      class="fixed flex top-0 left-0 w-full h-full bg-black/50 justify-center items-center z-10"
+    >
       <div class="bg-white p-8 rounded-md shadow-lg text-center flex flex-col">
-        <h2 class="text-left text-2xl font-bold mb-4">Thank you for RSVPing!</h2>
-        <p class="text-gray-600 mb-6">You can change your RSVP anytime up until July 1st.</p>
-        <a href="/" class="self-end w-1/3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded">Back home</a>
+        <h2 class="text-left text-2xl font-bold mb-4">
+          Thank you for RSVPing!
+        </h2>
+        <p class="text-gray-600 mb-6">
+          You can change your RSVP anytime up until July 1st.
+        </p>
+        <a
+          href="/"
+          class="self-end w-1/3 bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded"
+          >Back home</a
+        >
       </div>
     </div>
     <RSVPForm group={group} />

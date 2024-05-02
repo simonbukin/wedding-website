@@ -1,11 +1,10 @@
 ---
-import { supabase } from "../lib/supabase";
+const { cookies } = Astro;
 
-const { data, error } = await supabase.auth.getSession();
-const loggedIn = data.session;
-if (error) {
-  console.error(error);
-}
+const accessToken = cookies.get("sb-access-token");
+const refreshToken = cookies.get("sb-refresh-token");
+
+const loggedIn = accessToken && refreshToken;
 
 const anchorCss = `cursor-pointer
                    pb-1
@@ -33,11 +32,14 @@ const anchorCss = `cursor-pointer
                    sm:hover:border-b-2
                    sm:hover:border-slate-800
                    sm:hover:bg-transparent
-                   sm:hover:text-slate-800`
+                   sm:hover:text-slate-800`;
 ---
 
 <nav class="mx-4 w-full mt-4">
-  <ul hx-boost="true" class="sm:align-center grid h-full w-full grid-cols-2 grid-rows-3 gap-4 sm:flex sm:flex-row sm:justify-center">
+  <ul
+    hx-boost="true"
+    class="sm:align-center grid h-full w-full grid-cols-2 grid-rows-3 gap-4 sm:flex sm:flex-row sm:justify-center"
+  >
     <li class="col-span-2">
       <a class={anchorCss} href="/rsvp">RSVP</a>
     </li>
@@ -48,21 +50,25 @@ const anchorCss = `cursor-pointer
       <a class={anchorCss} href="/menu">Menu</a>
     </li>
     <li>
-        <a
-          target="_blank"
-          class={anchorCss} 
-          href="https://www.amazon.com/wedding/share/simonandkayla"
-        >
-          Registry
-        </a>
+      <a
+        target="_blank"
+        class={anchorCss}
+        href="https://www.amazon.com/wedding/share/simonandkayla"
+      >
+        Registry
+      </a>
     </li>
     <li>
       <a class={anchorCss} href="/our-story">Our Story</a>
     </li>
-    {loggedIn && (
-      <li class="col-span-2">
-        <a class={anchorCss} href="/api/logout">Log out</a>
-      </li>
-    )}
+    {
+      loggedIn && (
+        <li class="col-span-2">
+          <a class={anchorCss} href="/api/logout">
+            Log out
+          </a>
+        </li>
+      )
+    }
   </ul>
 </nav>

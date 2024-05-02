@@ -1,42 +1,15 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { supabase } from "../lib/supabase";
-import PostHogClient from "../posthog";
+const { cookies, redirect } = Astro;
 
-const phClient = PostHogClient();
+const error = Astro.url.searchParams.get("error")! || "";
+console.log(error);
 
-const errors = { message: "" };
-const { data, error } = await supabase.auth.getSession();
-const session = data.session;
-if (error) {
-  console.error(error);
-}
+const accessToken = cookies.get("sb-access-token");
+const refreshToken = cookies.get("sb-refresh-token");
 
-if (Astro.request.method === "POST") {
-  const form = await Astro.request.formData();
-  const email = form.get("email")?.toString().trim();
-  const password = form.get("password")?.toString().trim();
-
-  const emailWithRsvping = email + "@rsvp.ing";
-
-  if (!email || !password) {
-    errors.message = "invalid email or password";
-  } else {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: emailWithRsvping,
-      password,
-    });
-    if (error) {
-      errors.message = error.message;
-    } else {
-      phClient.identify(emailWithRsvping);
-      return Astro.redirect("/rsvp");
-    }
-  }
-}
-
-if (Astro.request.method === "GET" && session) {
-  return Astro.redirect("/");
+if (accessToken && refreshToken) {
+  return redirect("/rsvp");
 }
 ---
 
@@ -44,6 +17,7 @@ if (Astro.request.method === "GET" && session) {
   <div class="text-xl min-h-screen grid place-content-center">
     <form
       method="POST"
+      action="/api/login"
       class="flex flex-col bg-kaylasCoolColor/80 gap-4 rounded-md border border-slate-600 p-4"
     >
       <input
@@ -58,11 +32,7 @@ if (Astro.request.method === "GET" && session) {
         name="password"
         placeholder="Password"
       />
-      {
-        errors.message && (
-          <p class="text-red-500 text-lg font-bold">{errors.message}</p>
-        )
-      }
+      {error && <p class="text-red-500 text-lg font-bold">{error}</p>}
       <input
         type="submit"
         value="Login"
