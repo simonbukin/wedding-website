@@ -50,13 +50,13 @@ if (Astro.request.method === "POST") {
       .get("plusOneDietaryPreference")
       ?.toString();
 
-    if (firstName && lastName && foodChoice && dietaryPreference) {
+    if (firstName && lastName && foodChoice) {
       group.plusOne = {
         going: true,
         firstName,
         lastName,
         foodChoice,
-        dietaryPreference,
+        dietaryPreference: dietaryPreference ? dietaryPreference : "",
       };
     }
 
