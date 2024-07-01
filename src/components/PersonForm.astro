@@ -1,19 +1,19 @@
 ---
-import { type Person, FoodChoice } from '../lib/types.ts';
+import { type Person, FoodChoice } from "../lib/types.ts";
 interface Props {
-	person: Person;
-  index: number,
+  person: Person;
+  index: number;
 }
 
 const { person, index } = Astro.props;
 
-const isAfterDates = new Date() > new Date('2024-07-01')
+const isAfterDates = new Date() > new Date("2024-07-02");
 ---
 
 <section
   class="mb-8 flex flex-col gap-4"
-  x-data={`{ going: "${person.going ? 'going' : 'notGoing'}" }`}
-  >
+  x-data={`{ going: "${person.going ? "going" : "notGoing"}" }`}
+>
   <h2 class="text-xl font-bold">{`${person.firstName} ${person.lastName}`}</h2>
   <section class="grid grid-cols-2 grid-rows-2 gap-4">
     <label class="flex items-center justify-start gap-4">
@@ -36,12 +36,18 @@ const isAfterDates = new Date() > new Date('2024-07-01')
       disabled={isAfterDates}
       @change="$dispatch('food-choice', { hasKidsMeal: $event.target.value === 'KIDS_MEAL' })"
     >
-      <option value="" disabled>
-        Select your entree
-      </option>
-      {Object.entries(FoodChoice).map(([key, value]) => {
-        return <option value={key} selected={person.foodChoice === key}>{value === 'Kids Meal' ? 'Kids (11 years or younger) Meal' : value}</option>;
-      })}
+      <option value="" disabled> Select your entree </option>
+      {
+        Object.entries(FoodChoice).map(([key, value]) => {
+          return (
+            <option value={key} selected={person.foodChoice === key}>
+              {value === "Kids Meal"
+                ? "Kids (11 years or younger) Meal"
+                : value}
+            </option>
+          );
+        })
+      }
     </select>
 
     <label class="flex items-center justify-start gap-4">

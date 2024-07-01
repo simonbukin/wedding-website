@@ -1,6 +1,6 @@
 ---
-import { FoodChoice, type Group } from '../lib/types';
-import PersonForm from './PersonForm.astro';
+import { FoodChoice, type Group } from "../lib/types";
+import PersonForm from "./PersonForm.astro";
 
 interface Props {
   group: Group;
@@ -8,80 +8,117 @@ interface Props {
 
 const { group } = Astro.props;
 
-const isAfterDates = new Date() > new Date('2024-07-01')
+const isAfterDates = new Date() > new Date("2024-07-02");
 ---
 
-<form method="post"
-      hx-post="/rsvp"
-      hx-target="body"
-      class="flex flex-col bg-kaylasCoolColor/80 gap-4 rounded-md border border-slate-600 p-4"
-      x-data={`{
-                  plusOneFirstName: "${group?.plusOne?.firstName || 'Guest'}",
-                  plusOneLastName: "${group?.plusOne?.lastName || 'Name'}",
+<form
+  method="post"
+  hx-post="/rsvp"
+  hx-target="body"
+  class="flex flex-col bg-kaylasCoolColor/80 gap-4 rounded-md border border-slate-600 p-4"
+  x-data={`{
+                  plusOneFirstName: "${group?.plusOne?.firstName || "Guest"}",
+                  plusOneLastName: "${group?.plusOne?.lastName || "Name"}",
                   submitted: false,
-                  hasKidsMeal: ${group?.people.some(person => person.foodChoice === 'KIDS_MEAL')},
+                  hasKidsMeal: ${group?.people.some((person) => person.foodChoice === "KIDS_MEAL")},
                 }`}
-      x-on:food-choice="hasKidsMeal = hasKidsMeal ? true : $event.target.value === 'KIDS_MEAL'"
-      x-effect="console.log('hasKidsMeal', hasKidsMeal)"  
+  x-on:food-choice="hasKidsMeal = hasKidsMeal ? true : $event.target.value === 'KIDS_MEAL'"
+  x-effect="console.log('hasKidsMeal', hasKidsMeal)"
 >
-  {isAfterDates && (
-    <p class="text-red-500 text-lg font-bold">RSVPs are closed!</p>
-  )}
-  {group?.people.map((person, index) => {
-    return (
-      <PersonForm person={person} index={index} />
+  {
+    isAfterDates && (
+      <p class="text-red-500 text-lg font-bold">RSVPs are closed!</p>
     )
-  })}
-  {group?.canHavePlusOne && (
-    <>
-      <h2 class="mb-4 text-xl font-bold"
-          x-text="`${plusOneFirstName} ${plusOneLastName}`">Guest Name</h2>
-      <section class="grid grid-cols-2 grid-rows-2 gap-4">
-        <input
-          class="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
-          type="text"
-          value={group?.plusOne?.firstName}
-          placeholder="Plus one first name"
-          name="plusOneFirstName"
-          x-model="plusOneFirstName"
-        />
-
-        <select
-          name="plusOneFoodChoice"
-          class="rounded-md px-4 py-2 text-slate-900 disabled:border disabled:border-slate-900/30 disabled:bg-kaylasCoolColor disabled:text-slate-900/20"
+  }
+  {
+    group?.people.map((person, index) => {
+      return <PersonForm person={person} index={index} />;
+    })
+  }
+  {
+    group?.canHavePlusOne && (
+      <>
+        <h2
+          class="mb-4 text-xl font-bold"
+          x-text="`${plusOneFirstName} ${plusOneLastName}`"
         >
-          <option value="" disabled>
-            Select your entree
-          </option>
-          {Object.entries(FoodChoice).map(([key, value]) => {
-            return <option value={key} selected={group?.plusOne?.foodChoice === key}>{value === 'Kids Meal' ? 'Kids (11 years or younger) Meal' : value}</option>;
-          })}
-        </select>
+          Guest Name
+        </h2>
+        <section class="grid grid-cols-2 grid-rows-2 gap-4">
+          <input
+            class="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
+            type="text"
+            value={group?.plusOne?.firstName}
+            placeholder="Plus one first name"
+            name="plusOneFirstName"
+            x-model="plusOneFirstName"
+          />
 
-        <input
-          class="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
-          type="text"
-          value={group?.plusOne?.lastName}
-          placeholder="Plus one last name"
-          name="plusOneLastName"
-          x-model="plusOneLastName"
-        />
+          <select
+            name="plusOneFoodChoice"
+            class="rounded-md px-4 py-2 text-slate-900 disabled:border disabled:border-slate-900/30 disabled:bg-kaylasCoolColor disabled:text-slate-900/20"
+          >
+            <option value="" disabled>
+              Select your entree
+            </option>
+            {Object.entries(FoodChoice).map(([key, value]) => {
+              return (
+                <option
+                  value={key}
+                  selected={group?.plusOne?.foodChoice === key}
+                >
+                  {value === "Kids Meal"
+                    ? "Kids (11 years or younger) Meal"
+                    : value}
+                </option>
+              );
+            })}
+          </select>
 
-        <input
-          class="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
-          placeholder="Dietary restrictions"
-          type="text"
-          value={group?.plusOne?.dietaryPreference}
-          name="plusOneDietaryPreference"
-        />
-      </section>
-    </>
-  )}
-  
-  <div x-show="hasKidsMeal" class="w-full flex flex-row justify-between items-center ">
-    <label for="highChairs" class="text-gray-700">How many high chairs do you need?</label>
-    <input disabled={isAfterDates} value={group?.highChairs || 0} type="number" min="0" max="3" name="highChairs" id="highChairs" class="rounded-md p-2 text-slate-900 border border-slate-900/20" />
+          <input
+            class="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
+            type="text"
+            value={group?.plusOne?.lastName}
+            placeholder="Plus one last name"
+            name="plusOneLastName"
+            x-model="plusOneLastName"
+          />
+
+          <input
+            class="rounded-md p-2 text-slate-900 disabled:border disabled:border-slate-900/20 disabled:bg-kaylasCoolColor"
+            placeholder="Dietary restrictions"
+            type="text"
+            value={group?.plusOne?.dietaryPreference}
+            name="plusOneDietaryPreference"
+          />
+        </section>
+      </>
+    )
+  }
+
+  <div
+    x-show="hasKidsMeal"
+    class="w-full flex flex-row justify-between items-center"
+  >
+    <label for="highChairs" class="text-gray-700"
+      >How many high chairs do you need?</label
+    >
+    <input
+      disabled={isAfterDates}
+      value={group?.highChairs || 0}
+      type="number"
+      min="0"
+      max="3"
+      name="highChairs"
+      id="highChairs"
+      class="rounded-md p-2 text-slate-900 border border-slate-900/20"
+    />
   </div>
 
-  <button type="submit" disabled={isAfterDates} class="text-white rounded-md border border-slate-700 disabled:border-slate-300 bg-simonsCoolColor py-4 text-xl font-bold hover:bg-simonsCoolColor/50 disabled:bg-simonsCoolColor/20">RSVP</button>
+  <button
+    type="submit"
+    disabled={isAfterDates}
+    class="text-white rounded-md border border-slate-700 disabled:border-slate-300 bg-simonsCoolColor py-4 text-xl font-bold hover:bg-simonsCoolColor/50 disabled:bg-simonsCoolColor/20"
+    >RSVP</button
+  >
 </form>
